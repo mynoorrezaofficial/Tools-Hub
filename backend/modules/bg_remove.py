@@ -2,9 +2,16 @@ import os
 from rembg import remove, new_session
 from PIL import Image
 
-# Initialize the BiRefNet model session once to save loading time on subsequent requests
-# BiRefNet is highly advanced for complex edge detection (hair, fur, etc.)
-session = new_session("birefnet-general")
+# Persistent session variable
+_session = None
+
+def get_session():
+    """Lazy-load the BiRefNet model session."""
+    global _session
+    if _session is None:
+        # BiRefNet is highly advanced for complex edge detection
+        _session = new_session("birefnet-general")
+    return _session
 
 def process_bg_removal(input_path, output_path):
     """
@@ -13,8 +20,8 @@ def process_bg_removal(input_path, output_path):
     """
     try:
         input_image = Image.open(input_path)
-        # Use the pre-initialized BiRefNet session instance and apply post-processing for sharper, cleaner masks
-        output_image = remove(input_image, session=session, post_process_mask=True)
+        # Use the lazy-loaded BiRefNet session instance and apply post-processing
+        output_image = remove(input_image, session=get_session(), post_process_mask=True)
         
         # --- FORCED SHARP EDGE CUTOUT ---
         # Rembg produces anti-aliased (feathered) edges by default. 
