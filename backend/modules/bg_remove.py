@@ -1,5 +1,4 @@
-import os
-from rembg import remove, new_session
+# Imports are moved inside to save memory during startup
 from PIL import Image
 
 # Persistent session variable
@@ -7,17 +6,17 @@ _session = None
 
 def get_session():
     """Lazy-load the BiRefNet model session."""
+    from rembg import new_session
     global _session
     if _session is None:
-        # BiRefNet is highly advanced for complex edge detection
         _session = new_session("birefnet-general")
     return _session
 
 def process_bg_removal(input_path, output_path):
     """
-    Removes the background from the image at input_path and saves it as a transparent PNG at output_path.
-    Explicitly uses the BiRefNet model for high-quality background segmentation.
+    Removes the background using a deferred rembg import.
     """
+    from rembg import remove
     try:
         input_image = Image.open(input_path)
         # Use the lazy-loaded BiRefNet session instance and apply post-processing
