@@ -101,8 +101,9 @@ export default function Converter() {
     files.forEach(f => formData.append('files', f.file));
     formData.append('target_format', targetFormat);
 
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
     try {
-      const response = await axios.post('http://localhost:5000/api/convert', formData, {
+      const response = await axios.post(`${API_BASE}/api/convert`, formData, {
         responseType: 'blob',
       });
       const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });

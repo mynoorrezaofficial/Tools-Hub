@@ -155,8 +155,9 @@ export default function BgRemove() {
     const formData = new FormData();
     formData.append('image', file);
 
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
     try {
-      const response = await axios.post('http://localhost:5000/api/remove-bg', formData, {
+      const response = await axios.post(`${API_BASE}/api/remove-bg`, formData, {
         responseType: 'blob',
       });
       const url = URL.createObjectURL(response.data);

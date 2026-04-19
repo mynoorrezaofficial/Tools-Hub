@@ -25,8 +25,9 @@ export default function MediaDownloader() {
     setError(null);
     setMediaInfo(null);
 
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
     try {
-      const response = await axios.post('http://localhost:5000/api/media/info', { url });
+      const response = await axios.post(`${API_BASE}/api/media/info`, { url });
       setMediaInfo(response.data);
     } catch (err) {
       console.error(err);
@@ -40,8 +41,9 @@ export default function MediaDownloader() {
     setDownloading(format === 'audio' ? 'audio' : quality);
     setError(null);
 
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
     try {
-      const response = await axios.post('http://localhost:5000/api/media/download', 
+      const response = await axios.post(`${API_BASE}/api/media/download`, 
         { url, format, quality },
         { responseType: 'blob' }
       );
