@@ -6,6 +6,8 @@ from werkzeug.utils import secure_filename
 from modules.bg_remove import process_bg_removal
 from modules.converter import convert_to_format
 
+print("--- Tools Hub Backend Initializing ---")
+
 app = Flask(__name__)
 CORS(app)
 
@@ -15,6 +17,7 @@ UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 OUTPUT_FOLDER = os.path.join(BASE_DIR, 'outputs')
 TEMP_FOLDER = os.path.join(BASE_DIR, 'temp')
 
+print(f"Base Directory: {BASE_DIR}")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 os.makedirs(TEMP_FOLDER, exist_ok=True)
@@ -22,7 +25,7 @@ os.makedirs(TEMP_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
 app.config['TEMP_FOLDER'] = TEMP_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # Increased to 32 MB
+app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 32 MB
 
 @app.route('/', methods=['GET'])
 def health_check():
@@ -123,12 +126,15 @@ def media_info():
     url = data.get('url')
     if not url:
         return jsonify({"error": "No URL provided"}), 400
-        
-    result = get_media_info(url)
-    if result['success']:
-        return jsonify(result)
-    else:
-        return jsonify({"error": result['error']}), 500
+    
+    try:
+        result = get_media_info(url)
+        if result['success']:
+            return jsonify(result)
+        else:
+            return jsonify({"error": result['error']}), 500
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/media/download', methods=['POST'])
 def media_download():
@@ -142,23 +148,20 @@ def media_download():
         
     download_dir = os.path.join(app.config['OUTPUT_FOLDER'])
     
-    result = download_media(url, format_type, quality, download_dir)
-    
-    if result['success']:
-        safe_title = "".join([c for c in result["title"] if c.isalpha() or c.isdigit() or c==' ']).rstrip()
-        filename = f"{safe_title}.{result['ext']}"
-        
-        # Mimetype map for generic downloads
-        mime = 'video/mp4' if result['ext'] == 'mp4' else 'audio/mp4'
-        
-        return send_file(
-            result['file_path'],
-            as_attachment=True,
-            download_name=filename,
-            mimetype=mime
-        )
-    else:
-        return jsonify({"error": result['error']}), 500
+    try:
+        result = download_media(url, format_type, quality, download_dir)
+        if result['success']:
+            safe_title = "".join([c for c in result["title"] if c.isalpha() or c.isdigit() or c==' ']).rstrip()
+            filename = f"{safe_title}.{result['ext']}"
+            mime = 'video/mp4' if result['ext'] == 'mp4' else 'audio/mp4'
+            return send_file(result['file_path'], as_attachment=True, download_name=filename, mimetype=mime)
+        else:
+            return jsonify({"error": result['error']}), 500
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # Use environment variable for port if available (for direct running)
+    port = int(os.environ.get("PORT", 5000))
+    print(f"Server starting on port {port}...")
+    app.run(host='0.0.0.0', port=port)
