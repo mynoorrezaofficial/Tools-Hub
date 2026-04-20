@@ -53,9 +53,17 @@ The MVP includes:
   - Modular processing logic
 
 ### 2.3 Hosting & Deployment
-- **Frontend:** Netlify or Vercel
-- **Backend:** Railway or Render
-- **Domain:** Example: `toolshub.com`
+- **Frontend (Vercel):** 
+  - Root Directory: `frontend`
+  - Build Command: `npm run build`
+  - Output Directory: `dist`
+  - Environment Variable: `VITE_API_URL` (Point to Render backend URL)
+- **Backend (Render):**
+  - Root Directory: `backend`
+  - Build Command: `pip install -r requirements.txt`
+  - Start Command: `gunicorn app:app`
+  - Environment Variable: `PORT` (Automatic)
+- **Repo:** `https://github.com/mynoorrezaofficial/Tools-Hub.git`
 
 ---
 

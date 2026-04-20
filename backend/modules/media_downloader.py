@@ -7,9 +7,17 @@ def get_media_info(url):
     Fetches the metadata (thumbnail, title, duration) for a given media URL.
     """
     ydl_opts = {
-        'quiet': True,
-        'no_warnings': True,
+        'quiet': False,
+        'no_warnings': False,
         'noplaylist': True,
+        'extractor_args': {
+            'youtube': {
+                'player_client': ['android', 'web'],
+            }
+        },
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        },
     }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -19,9 +27,6 @@ def get_media_info(url):
             duration = info.get('duration', 0)
             thumbnail = info.get('thumbnail', None)
             
-            # Format discovery
-            # For simplicity without ffmpeg, we stick to pre-merged resolutions
-            
             return {
                 "success": True,
                 "title": title,
@@ -30,6 +35,9 @@ def get_media_info(url):
                 "resolutions": ["1080p", "720p"] 
             }
     except Exception as e:
+        import traceback
+        print(f"[media_downloader ERROR] {str(e)}")
+        print(traceback.format_exc())
         return {
             "success": False,
             "error": str(e)
