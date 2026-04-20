@@ -10,6 +10,7 @@ The MVP includes:
 - Background remover (BiRefNet advanced model for sharp edges)
 - File converter (Document & Image format routing)
 - Media Downloader (High-quality MP4/MP3 extraction from URL)
+- Ad Blocker (Browser extension for Chrome/Edge)
 
 **Future features may include:**
 
@@ -64,7 +65,7 @@ tools-hub/
 ├── frontend/ # React App
 │ ├── src/
 │ │ ├── components/ # Navbar, Footer, Buttons
-│   │   ├── pages/ # Home, BgRemove, Converter, MediaDownloader
+│   │   ├── pages/ # Home, BgRemove, Converter, MediaDownloader, AdBlocker
 │   │   ├── App.jsx
 │   │   └── index.css
 │   └── public/
@@ -79,6 +80,8 @@ tools-hub/
 │   ├── uploads/ # Temporary user uploads
 │   └── outputs/ # Processed file outputs
 │
+├── extensions/ # Browser extensions
+    ├── adblocker/ # Ad Blocker source (manifest v3)
 ├── requirements.txt # Python dependencies (Flask, yt-dlp, rembg, etc.)
 ├── package.json # React dependencies
 └── README.md / Tools_Hub_Project_Plan.md # Project documentation
@@ -110,6 +113,11 @@ tools-hub/
 - Backend automatically ignores playlists (`noplaylist` engine target)
 - UI renders embedded Title, Duration, and Thumbnail
 - 1-Click options for MP4 (720p/1080p) or MP3/M4A Audio
+
+### 4.5 Ad Blocker Page
+- Direct download button for `toolshub-adblocker.zip`
+- Detailed 4-step manual installation guide (Chrome/Edge Developer Mode)
+- Premium landing page UI describing block status and safety benefits
 
 ---
 

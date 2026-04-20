@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Scissors, FileText, ChevronRight, Upload, Settings, Download, Zap, Sparkles, PlayCircle } from "lucide-react";
+import { Scissors, FileText, ChevronRight, Upload, Settings, Download, Zap, Sparkles, PlayCircle, Shield } from "lucide-react";
 import BgRemove from "./pages/BgRemove";
 import Converter from "./pages/Converter";
 import MediaDownloader from "./pages/MediaDownloader";
+import AdBlocker from "./pages/AdBlocker";
 
 function Home() {
   return (
@@ -104,6 +105,18 @@ function Home() {
                 Explore Tool <ChevronRight size={18} className="ml-1" />
               </div>
             </Link>
+
+            {/* Feature 4 */}
+            <Link to="/ad-blocker" className="group glass-card p-10 hover:shadow-green-500/10 hover:border-green-200">
+              <div className="w-16 h-16 bg-green-100 rounded-3xl flex items-center justify-center text-green-600 mb-8 group-hover:rotate-6 transition-transform">
+                <Shield size={32} />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Ad Blocker</h3>
+              <p className="text-slate-500 leading-relaxed">Clean your web browsing experience. Block malicious ads and trackers with our premium extension.</p>
+              <div className="mt-8 flex items-center text-green-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                Explore Tool <ChevronRight size={18} className="ml-1" />
+              </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -163,6 +176,7 @@ function Layout({ children }) {
               <a href="/#tools" className="hover:text-slate-900 transition-colors">Tools</a>
               <Link to="/bg-remove" className="hover:text-slate-900 transition-colors">BG Remover</Link>
               <Link to="/media-downloader" className="hover:text-slate-900 transition-colors">Downloader</Link>
+              <Link to="/ad-blocker" className="hover:text-slate-900 transition-colors">Ad Blocker</Link>
               <Link to="/converter" className="hover:text-slate-900 transition-colors">Converter</Link>
             </div>
           </div>
@@ -214,6 +228,7 @@ function App() {
           <Route path="/bg-remove" element={<BgRemove />} />
           <Route path="/converter" element={<Converter />} />
           <Route path="/media-downloader" element={<MediaDownloader />} />
+          <Route path="/ad-blocker" element={<AdBlocker />} />
         </Routes>
       </Layout>
     </Router>
