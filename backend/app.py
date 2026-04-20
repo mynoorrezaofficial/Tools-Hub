@@ -9,7 +9,8 @@ from modules.converter import convert_to_format
 print("--- Tools Hub Backend Initializing ---")
 
 app = Flask(__name__)
-CORS(app)
+# Enable CORS for all routes, allowing all origins, methods and headers
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Configuration
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
