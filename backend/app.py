@@ -28,6 +28,21 @@ app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
 app.config['TEMP_FOLDER'] = TEMP_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 32 MB
 
+@app.errorhandler(Exception)
+def handle_exception(e):
+    # Pass through HTTP errors
+    from werkzeug.exceptions import HTTPException
+    import traceback
+    print(f"--- GLOBAL BACKEND ERROR ---\n{str(e)}")
+    print(traceback.format_exc())
+    
+    response = {
+        "success": False,
+        "error": "Internal Server Error",
+        "description": str(e)
+    }
+    return jsonify(response), 500
+
 @app.route('/', methods=['GET'])
 def health_check():
     return jsonify({

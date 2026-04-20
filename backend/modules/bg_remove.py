@@ -5,11 +5,12 @@ from PIL import Image
 _session = None
 
 def get_session():
-    """Lazy-load the BiRefNet model session."""
+    """Lazy-load a lightweight model session suitable for cloud free tiers (512MB)."""
     from rembg import new_session
     global _session
     if _session is None:
-        _session = new_session("birefnet-general")
+        # u2netp is ~4MB, birefnet is >1GB (causes OOM crashes on Render free tier)
+        _session = new_session("u2netp")
     return _session
 
 def process_bg_removal(input_path, output_path):
