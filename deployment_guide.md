@@ -39,21 +39,21 @@ Vercel is the best home for your Vite-powered React app.
 3.  **Configure Project:**
     - **Framework Preset:** `Vite`
     - **Root Directory:** `frontend`
-    - **Environment Variables:**
-        - Add a variable named `VITE_API_BASE_URL`.
-        - Value: `https://your-backend-url.onrender.com` (from Step 1).
+
 4.  **Deploy:** Click **"Deploy"**.
 
 ---
 
 ## 🔗 Step 3: Connect Frontend to Backend
 
-Currently, your frontend is hardcoded to `localhost`. I will help you update this to use the `VITE_API_BASE_URL` variable so it works both locally and in production.
+Your frontend has been configured to **automatically detect** its environment and route API requests accordingly using dynamic browser routing. You do not need to configure any environment variables in Vercel.
 
 ### Update logic:
-The code will be updated across all pages to use:
+The code across all tools automatically uses:
 ```javascript
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+  ? 'http://localhost:5000' 
+  : 'https://tools-hub-9q7i.onrender.com';
 ```
 
 ---
@@ -64,4 +64,4 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 ---
 
-**Next Steps:** I will now proceed to update your frontend files to support these environment variables.
+**Next Steps:** Your application is fully configured and ready for production!
