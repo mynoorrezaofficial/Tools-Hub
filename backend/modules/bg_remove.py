@@ -9,8 +9,8 @@ def get_session():
     from rembg import new_session
     global _session
     if _session is None:
-        # u2netp is ~4MB, birefnet is >1GB (causes OOM crashes on Render free tier)
-        _session = new_session("u2netp")
+        # Using birefnet-general as requested
+        _session = new_session("birefnet-general")
     return _session
 
 def process_bg_removal(input_path, output_path):

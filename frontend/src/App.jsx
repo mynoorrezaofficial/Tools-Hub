@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Scissors, FileText, ChevronRight, Upload, Settings, Download, Zap, Sparkles, PlayCircle, Shield } from "lucide-react";
 import BgRemove from "./pages/BgRemove";
@@ -155,6 +155,9 @@ function Home() {
 
 
 function Layout({ children }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 relative overflow-x-hidden selection:bg-blue-100 selection:text-blue-900">
       {/* Dynamic Glow Orbs */}
@@ -173,11 +176,21 @@ function Layout({ children }) {
 
             <div className="hidden md:flex items-center gap-8 font-semibold text-slate-500 text-[15px]">
               <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-slate-900 transition-colors">Home</Link>
-              <a href="/#tools" className="hover:text-slate-900 transition-colors">Tools</a>
-              <Link to="/bg-remove" className="hover:text-slate-900 transition-colors">BG Remover</Link>
-              <Link to="/media-downloader" className="hover:text-slate-900 transition-colors">Downloader</Link>
-              <Link to="/ad-blocker" className="hover:text-slate-900 transition-colors">Ad Blocker</Link>
-              <Link to="/converter" className="hover:text-slate-900 transition-colors">Converter</Link>
+              <button 
+                onClick={() => {
+                  if (location.pathname === "/") {
+                    document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' });
+                  } else {
+                    navigate('/');
+                    setTimeout(() => {
+                      document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }
+                }} 
+                className="hover:text-slate-900 transition-colors cursor-pointer"
+              >
+                Tools
+              </button>
             </div>
           </div>
 

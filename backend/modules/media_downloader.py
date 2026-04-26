@@ -10,15 +10,6 @@ def get_media_info(url):
         'quiet': False,
         'no_warnings': False,
         'noplaylist': True,
-        'extractor_args': {
-            'youtube': {
-                'player_client': ['ios', 'tv'],
-                'skip': ['webpage', 'hls'],
-            }
-        },
-        'http_headers': {
-            'User-Agent': 'com.google.ios.youtube/19.45.4 (iPhone16,2; U; CPU iOS 17_6_1 like Mac OS X; en_US)',
-        },
     }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
