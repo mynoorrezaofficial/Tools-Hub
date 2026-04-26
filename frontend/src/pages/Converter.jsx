@@ -10,9 +10,9 @@ import axios from 'axios';
 
 const STEPS = [
   { id: 1, name: 'Select Format', icon: Settings2 },
-  { id: 2, name: 'Upload Files',  icon: UploadCloud },
-  { id: 3, name: 'Converting',   icon: Loader },
-  { id: 4, name: 'Result',        icon: Download }
+  { id: 2, name: 'Upload Files', icon: UploadCloud },
+  { id: 3, name: 'Converting', icon: Loader },
+  { id: 4, name: 'Result', icon: Download }
 ];
 
 const FORMAT_GROUPS = [
@@ -20,30 +20,30 @@ const FORMAT_GROUPS = [
     label: 'Images',
     color: 'blue',
     options: [
-      { id: 'jpg',  name: 'JPG',  desc: 'Compressed photo format',          icon: ImageIcon },
+      { id: 'jpg', name: 'JPG', desc: 'Compressed photo format', icon: ImageIcon },
       { id: 'jpeg', name: 'JPEG', desc: 'Standard joint photo expert format', icon: ImageIcon },
-      { id: 'png',  name: 'PNG',  desc: 'Lossless, supports transparency',   icon: ImageIcon },
+      { id: 'png', name: 'PNG', desc: 'Lossless, supports transparency', icon: ImageIcon },
       { id: 'webp', name: 'WEBP', desc: 'Modern web-optimized image format', icon: ImageIcon },
-      { id: 'zip',  name: 'ZIP (PDF pages)', desc: 'Extract all PDF pages as images', icon: ListRestart },
+      { id: 'zip', name: 'ZIP (PDF pages)', desc: 'Extract all PDF pages as images', icon: ListRestart },
     ]
   },
   {
     label: 'Documents',
     color: 'violet',
     options: [
-      { id: 'pdf',  name: 'PDF',  desc: 'Universal document format',         icon: FileText },
-      { id: 'docx', name: 'DOCX', desc: 'Microsoft Word document',           icon: FileText },
-      { id: 'pptx', name: 'PPTX', desc: 'Microsoft PowerPoint slides',       icon: Presentation },
-      { id: 'txt',  name: 'TXT',  desc: 'Plain text file',                   icon: FileType },
-      { id: 'html', name: 'HTML', desc: 'Styled web page file',              icon: FileCode },
+      { id: 'pdf', name: 'PDF', desc: 'Universal document format', icon: FileText },
+      { id: 'docx', name: 'DOCX', desc: 'Microsoft Word document', icon: FileText },
+      { id: 'pptx', name: 'PPTX', desc: 'Microsoft PowerPoint slides', icon: Presentation },
+      { id: 'txt', name: 'TXT', desc: 'Plain text file', icon: FileType },
+      { id: 'html', name: 'HTML', desc: 'Styled web page file', icon: FileCode },
     ]
   },
   {
     label: 'Data',
     color: 'emerald',
     options: [
-      { id: 'xlsx', name: 'XLSX', desc: 'Microsoft Excel spreadsheet',       icon: Table },
-      { id: 'csv',  name: 'CSV',  desc: 'Comma-separated values (raw data)', icon: Database },
+      { id: 'xlsx', name: 'XLSX', desc: 'Microsoft Excel spreadsheet', icon: Table },
+      { id: 'csv', name: 'CSV', desc: 'Comma-separated values (raw data)', icon: Database },
     ]
   }
 ];
@@ -51,9 +51,9 @@ const FORMAT_GROUPS = [
 const ALL_FORMATS = FORMAT_GROUPS.flatMap(g => g.options);
 
 const GROUP_COLORS = {
-  blue:   { ring: 'border-blue-600 bg-blue-50/50 shadow-blue-500/10', icon: 'bg-blue-600 text-white', label: 'bg-blue-100 text-blue-700', btn: 'bg-blue-600 hover:bg-blue-500' },
+  blue: { ring: 'border-blue-600 bg-blue-50/50 shadow-blue-500/10', icon: 'bg-blue-600 text-white', label: 'bg-blue-100 text-blue-700', btn: 'bg-blue-600 hover:bg-blue-500' },
   violet: { ring: 'border-violet-600 bg-violet-50/50 shadow-violet-500/10', icon: 'bg-violet-600 text-white', label: 'bg-violet-100 text-violet-700', btn: 'bg-violet-600 hover:bg-violet-500' },
-  emerald:{ ring: 'border-emerald-600 bg-emerald-50/50 shadow-emerald-500/10', icon: 'bg-emerald-600 text-white', label: 'bg-emerald-100 text-emerald-700', btn: 'bg-emerald-600 hover:bg-emerald-500' },
+  emerald: { ring: 'border-emerald-600 bg-emerald-50/50 shadow-emerald-500/10', icon: 'bg-emerald-600 text-white', label: 'bg-emerald-100 text-emerald-700', btn: 'bg-emerald-600 hover:bg-emerald-500' },
 };
 
 export default function Converter() {
@@ -153,11 +153,10 @@ export default function Converter() {
           const isDone = currentStep > step.id;
           return (
             <div key={step.id} className="relative z-10 flex flex-col items-center gap-2">
-              <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all border-4 ${
-                isActive ? 'bg-blue-600 border-blue-100 text-white shadow-xl scale-110' :
-                isDone   ? 'bg-emerald-500 border-emerald-50 text-white' :
-                           'bg-white border-slate-100 text-slate-300'
-              }`}>
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all border-4 ${isActive ? 'bg-blue-600 border-blue-100 text-white shadow-xl scale-110' :
+                  isDone ? 'bg-emerald-500 border-emerald-50 text-white' :
+                    'bg-white border-slate-100 text-slate-300'
+                }`}>
                 {isDone ? <CheckCircle2 size={24} /> : <step.icon size={24} />}
               </div>
               <span className={`text-[10px] font-black uppercase tracking-widest ${isActive ? 'text-blue-600' : 'text-slate-400'}`}>
@@ -174,7 +173,7 @@ export default function Converter() {
 
           {/* STEP 1 — FORMAT PICKER */}
           {currentStep === 1 && (
-            <motion.div key="s1" initial={{ opacity:0, x:20 }} animate={{ opacity:1, x:0 }} exit={{ opacity:0, x:-20 }}>
+            <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
               <h3 className="text-xl font-black text-center text-slate-900 mb-8">Choose Output Format</h3>
 
               <div className="flex flex-col gap-8">
@@ -192,9 +191,8 @@ export default function Converter() {
                             <button
                               key={opt.id}
                               onClick={() => setTargetFormat(opt.id)}
-                              className={`p-4 rounded-[24px] border-2 text-left transition-all ${
-                                isSelected ? `${gc.ring} border shadow-lg` : 'border-slate-100 bg-white hover:border-slate-200'
-                              }`}
+                              className={`p-4 rounded-[24px] border-2 text-left transition-all ${isSelected ? `${gc.ring} border shadow-lg` : 'border-slate-100 bg-white hover:border-slate-200'
+                                }`}
                             >
                               <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${isSelected ? gc.icon : 'bg-slate-100 text-slate-400'}`}>
                                 <opt.icon size={20} />
@@ -221,7 +219,7 @@ export default function Converter() {
 
           {/* STEP 2 — UPLOAD */}
           {currentStep === 2 && (
-            <motion.div key="s2" initial={{ opacity:0, x:20 }} animate={{ opacity:1, x:0 }} exit={{ opacity:0, x:-20 }} className="flex flex-col gap-6">
+            <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-black text-slate-900">Upload Your Files</h3>
@@ -292,7 +290,7 @@ export default function Converter() {
 
           {/* STEP 3 — PROCESSING */}
           {currentStep === 3 && (
-            <motion.div key="s3" initial={{ opacity:0 }} animate={{ opacity:1 }} className="flex flex-col items-center justify-center py-20 gap-6">
+            <motion.div key="s3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center justify-center py-20 gap-6">
               <div className="relative">
                 <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: 'linear' }}>
                   <Loader size={80} className="text-blue-600" />
@@ -308,7 +306,7 @@ export default function Converter() {
 
           {/* STEP 4 — RESULT */}
           {currentStep === 4 && (
-            <motion.div key="s4" initial={{ scale:0.9, opacity:0 }} animate={{ scale:1, opacity:1 }} className="flex flex-col items-center text-center py-6">
+            <motion.div key="s4" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex flex-col items-center text-center py-6">
               <div className="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-[32px] flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/10">
                 <CheckCircle2 size={48} />
               </div>

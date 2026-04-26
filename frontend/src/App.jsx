@@ -1,5 +1,14 @@
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 import { Scissors, FileText, ChevronRight, Upload, Settings, Download, Zap, Sparkles, PlayCircle, Shield } from "lucide-react";
 import BgRemove from "./pages/BgRemove";
 import Converter from "./pages/Converter";
@@ -235,6 +244,7 @@ function Layout({ children }) {
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
