@@ -24,3 +24,7 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+
+# Local Deployment Docs & Scripts
+*.bat
+deployment_guide.md
