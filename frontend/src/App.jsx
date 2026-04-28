@@ -233,8 +233,8 @@ function Layout({ children }) {
       <footer className="w-full pt-32 pb-16 bg-slate-900 text-white relative z-10 mt-20 rounded-t-[80px]">
         <div className="max-w-7xl mx-auto px-10 flex flex-col md:flex-row justify-between items-center gap-12">
           <div className="flex flex-col items-center md:items-start gap-4">
-            <Link to="/" className="text-3xl font-black tracking-tighter flex items-center gap-3">
-              <div className="w-8 h-8 primary-gradient rounded-xl"></div>
+            <Link to="/" className="text-3xl font-black tracking-tighter flex items-center gap-3 group">
+              <img src="/logo.svg" alt="ToolsHub Icon" className="w-8 h-8 rounded-xl shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform duration-500" />
               ToolsHub.
             </Link>
             <p className="text-slate-400 text-sm max-w-xs text-center md:text-left">The ultimate toolkit for high-performance students. 100% free and open source.</p>
