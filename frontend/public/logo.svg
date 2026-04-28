@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="50%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#9333ea" />
+    </linearGradient>
+    <linearGradient id="glass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.4)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0.0)" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="512" height="512" rx="128" fill="url(#bg)" />
+
+  <!-- Inner Glass Border -->
+  <rect x="4" y="4" width="504" height="504" rx="124" fill="none" stroke="url(#glass)" stroke-width="8" />
+
+  <!-- Top Bar of T -->
+  <rect x="146" y="140" width="220" height="42" rx="2" fill="white" />
+
+  <!-- Stem of T with curved top-left (Knife edge) -->
+  <path d="M 278.5 370 L 233.5 370 L 233.5 250 Q 233.5 200 278.5 200 Z" fill="white" />
+</svg>

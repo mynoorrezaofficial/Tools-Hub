@@ -1,0 +1,13 @@
+Flask
+Flask-Cors
+rembg[cpu]
+Pillow
+PyMuPDF
+python-docx
+reportlab
+openpyxl
+python-pptx
+yt-dlp>=2024.12.13
+gunicorn
+opencv-python-headless
+onnxruntime

@@ -1,0 +1,30 @@
+# Environments
+.env
+.venv
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Backend folders to ignore
+backend/__pycache__/
+backend/.pytest_cache/
+backend/uploads/
+backend/outputs/
+*.pyc
+
+# Frontend (if caught by root)
+frontend/node_modules/
+frontend/dist/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Local Deployment Docs & Scripts
+*.bat
+deployment_guide.md
