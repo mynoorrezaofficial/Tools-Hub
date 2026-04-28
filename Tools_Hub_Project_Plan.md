@@ -11,6 +11,7 @@ The MVP includes:
 - File converter (Document & Image format routing)
 - Media Downloader (High-quality MP4/MP3 extraction from URL)
 - Ad Blocker (Browser extension for Chrome/Edge)
+- CV Maker (Professional PDF/Word resume generator)
 
 **Future features may include:**
 
@@ -73,7 +74,7 @@ tools-hub/
 ├── frontend/ # React App
 │ ├── src/
 │ │ ├── components/ # Navbar, Footer, Buttons
-│   │   ├── pages/ # Home, BgRemove, Converter, MediaDownloader, AdBlocker
+│   │   ├── pages/ # Home, BgRemove, Converter, MediaDownloader, AdBlocker, CVMaker
 │   │   ├── App.jsx
 │   │   └── index.css
 │   └── public/
@@ -84,7 +85,8 @@ tools-hub/
 │   ├── modules/ # Core processing logic
 │   │   ├── bg_remove.py (BiRefNet logic)
 │   │   ├── converter.py
-│   │   └── media_downloader.py (yt-dlp core)
+│   │   ├── media_downloader.py (yt-dlp core)
+│   │   └── cv_generator.py (PDF/Docx generation)
 │   ├── uploads/ # Temporary user uploads
 │   └── outputs/ # Processed file outputs
 │
@@ -127,6 +129,14 @@ tools-hub/
 - Detailed 4-step manual installation guide (Chrome/Edge Developer Mode)
 - Premium landing page UI describing block status and safety benefits
 
+### 4.6 CV Maker Page
+- **Template Gallery:** Select from 6 premium, live-rendered layouts with professional high-fidelity previews.
+- **Sequential Wizard:** A 5-step animated editing flow (Personal → Experience → Education → Skills & Others → Final Preview).
+- **Advanced Categories:** Detailed inputs for Training, Certifications, Languages, and References.
+- **Dynamic Custom Sections:** Users can create and style their own sections with custom titles and content.
+- **Real-time Preview:** Visualizes changes instantly using actual component rendering.
+- **Flexible Export:** One-click download as PDF or Word (Docx), with export actions prioritized at the top.
+
 ---
 
 ## 5. Routing Plan (Flask Example)
@@ -143,3 +153,8 @@ def bg_remove():
 @app.route('/converter', methods=['GET', 'POST'])
 def converter():
     return render_template('converter.html')
+
+@app.route('/cv-maker', methods=['GET', 'POST'])
+def cv_maker():
+    return render_template('cv_maker.html')
+```

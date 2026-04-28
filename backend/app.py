@@ -5,6 +5,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from modules.bg_remove import process_bg_removal
 from modules.converter import convert_to_format
+from modules.cv_generator import generate_cv_pdf, generate_cv_docx
 
 print("--- Tools Hub Backend Initializing ---")
 
@@ -174,6 +175,43 @@ def media_download():
         else:
             return jsonify({"error": result['error']}), 500
     except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/cv/generate', methods=['POST'])
+def cv_generate():
+    data = request.json
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+    
+    format_type = data.get('format', 'pdf').lower()
+    template = data.get('template', 'classic').lower()
+    
+    unique_id = str(uuid.uuid4())
+    output_filename = f"cv_{unique_id}.{format_type}"
+    output_path = os.path.join(app.config['OUTPUT_FOLDER'], output_filename)
+    
+    try:
+        if format_type == 'pdf':
+            success, message = generate_cv_pdf(data, output_path, template)
+            mimetype = 'application/pdf'
+        elif format_type == 'docx':
+            success, message = generate_cv_docx(data, output_path, template)
+            mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        else:
+            return jsonify({"error": f"Unsupported format: {format_type}"}), 400
+            
+        if success:
+            return send_file(
+                output_path, 
+                as_attachment=True, 
+                download_name=f"My_CV.{format_type}",
+                mimetype=mimetype
+            )
+        else:
+            return jsonify({"error": message}), 500
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
