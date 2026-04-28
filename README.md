@@ -31,6 +31,14 @@ Extract high-quality media from across the web using the power of `yt-dlp`.
 - **Metadata Preview:** Real-time fetching of thumbnails, titles, and video duration.
 - **Flexible Formats:** Download as MP4 (up to 1080p) or high-quality Audio (M4A).
 
+### 📄 Professional CV Maker
+A high-performance, multi-step resume builder with real-time visual feedback.
+- **High-Fidelity Previews:** Live, scaled-down renders of actual templates (not static images).
+- **Comprehensive Sections:** Dedicated areas for Experience, Education, Training, Languages, and References.
+- **Custom Sections:** Add unlimited personalized categories like "Volunteering" or "Projects."
+- **Premium Templates:** 6 distinct, professionally designed layouts (Classic, Atlantic Blue, Mercury Flow, etc.).
+- **Multi-Format Export:** One-click download as PDF or Word (Docx).
+
 ### 🛡️ Browser Adblocker
 A dedicated Manifest V3 browser extension for a distraction-free student experience.
 
@@ -60,7 +68,7 @@ A dedicated Manifest V3 browser extension for a distraction-free student experie
 Tools_Hub/
 ├── frontend/             # React + Vite Application
 │   ├── src/
-│   │   ├── pages/        # BgRemove, Converter, MediaDownloader
+│   │   ├── pages/        # BgRemove, Converter, MediaDownloader, CVMaker
 │   │   ├── components/   # UI Layout & Navbar
 │   │   └── App.jsx       # Routing & Home Page
 ├── backend/              # Flask API

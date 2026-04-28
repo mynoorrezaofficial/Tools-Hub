@@ -130,11 +130,12 @@ tools-hub/
 - Premium landing page UI describing block status and safety benefits
 
 ### 4.6 CV Maker Page
-- Multi-step animated form (Personal, Education, Work, Skills)
-- Live preview with selectable templates (Classic, Modern, Creative, Minimalist)
-- Real-time section reordering and text editing
-- One-click export to PDF, Word (Docx), and Plain Text
-- ATS-friendly optimization mode toggle
+- **Template Gallery:** Select from 6 premium, live-rendered layouts with professional high-fidelity previews.
+- **Sequential Wizard:** A 5-step animated editing flow (Personal → Experience → Education → Skills & Others → Final Preview).
+- **Advanced Categories:** Detailed inputs for Training, Certifications, Languages, and References.
+- **Dynamic Custom Sections:** Users can create and style their own sections with custom titles and content.
+- **Real-time Preview:** Visualizes changes instantly using actual component rendering.
+- **Flexible Export:** One-click download as PDF or Word (Docx), with export actions prioritized at the top.
 
 ---
 
