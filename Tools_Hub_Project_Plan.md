@@ -91,7 +91,7 @@ tools-hub/
 │   └── outputs/ # Processed file outputs
 │
 ├── extensions/ # Browser extensions
-    ├── adblocker/ # Ad Blocker source (manifest v3)
+├── adblocker/ # Ad Blocker source (manifest v3)
 ├── requirements.txt # Python dependencies (Flask, yt-dlp, rembg, etc.)
 ├── package.json # React dependencies
 └── README.md / Tools_Hub_Project_Plan.md # Project documentation

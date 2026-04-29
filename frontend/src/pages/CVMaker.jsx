@@ -70,6 +70,8 @@ export default function CVMaker() {
     achievements: [''],
   });
 
+  const [lastAddedIndex, setLastAddedIndex] = useState({ section: '', index: -1 });
+
   const handleInputChange = (section, field, value, index = null) => {
     if (index !== null) {
       const newList = [...cvData[section]];
@@ -83,12 +85,28 @@ export default function CVMaker() {
   };
 
   const addItem = (section, template) => {
-    setCvData({ ...cvData, [section]: [...cvData[section], template] });
+    const newList = [...cvData[section], template];
+    setCvData({ ...cvData, [section]: newList });
+    setLastAddedIndex({ section, index: newList.length - 1 });
   };
 
   const removeItem = (section, index) => {
     const newList = cvData[section].filter((_, i) => i !== index);
     setCvData({ ...cvData, [section]: newList });
+  };
+
+  const handleEnterNext = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const parent = e.target.closest('.grid') || e.target.closest('.space-y-8');
+      if (parent) {
+        const inputs = Array.from(parent.querySelectorAll('input, textarea, select'));
+        const index = inputs.indexOf(e.target);
+        if (index > -1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      }
+    }
   };
 
   const handleDownload = async (format) => {
@@ -210,12 +228,12 @@ export default function CVMaker() {
         return (
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
             <div className="grid md:grid-cols-2 gap-8">
-              <InputField label="Full Name" value={cvData.personal.name} onChange={(v) => handleInputChange('personal', 'name', v)} icon={User} placeholder="John Doe" />
-              <InputField label="Email Address" value={cvData.personal.email} onChange={(v) => handleInputChange('personal', 'email', v)} icon={Mail} placeholder="john@example.com" />
-              <InputField label="Phone Number" value={cvData.personal.phone} onChange={(v) => handleInputChange('personal', 'phone', v)} icon={Phone} placeholder="+1 234 567 890" />
-              <InputField label="Location" value={cvData.personal.location} onChange={(v) => handleInputChange('personal', 'location', v)} icon={MapPin} placeholder="New York, USA" />
-              <InputField label="LinkedIn URL" value={cvData.personal.linkedin} onChange={(v) => handleInputChange('personal', 'linkedin', v)} icon={LinkIcon} placeholder="linkedin.com/in/johndoe" />
-              <InputField label="Portfolio/Website" value={cvData.personal.website} onChange={(v) => handleInputChange('personal', 'website', v)} icon={LinkIcon} placeholder="johndoe.com" />
+              <InputField label="Full Name" value={cvData.personal.name} onChange={(v) => handleInputChange('personal', 'name', v)} onKeyDown={handleEnterNext} icon={User} placeholder="John Doe" />
+              <InputField label="Email Address" value={cvData.personal.email} onChange={(v) => handleInputChange('personal', 'email', v)} onKeyDown={handleEnterNext} icon={Mail} placeholder="john@example.com" />
+              <InputField label="Phone Number" value={cvData.personal.phone} onChange={(v) => handleInputChange('personal', 'phone', v)} onKeyDown={handleEnterNext} icon={Phone} placeholder="+1 234 567 890" />
+              <InputField label="Location" value={cvData.personal.location} onChange={(v) => handleInputChange('personal', 'location', v)} onKeyDown={handleEnterNext} icon={MapPin} placeholder="New York, USA" />
+              <InputField label="LinkedIn URL" value={cvData.personal.linkedin} onChange={(v) => handleInputChange('personal', 'linkedin', v)} onKeyDown={handleEnterNext} icon={LinkIcon} placeholder="linkedin.com/in/johndoe" />
+              <InputField label="Portfolio/Website" value={cvData.personal.website} onChange={(v) => handleInputChange('personal', 'website', v)} onKeyDown={handleEnterNext} icon={LinkIcon} placeholder="johndoe.com" />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-bold text-slate-700 ml-1">Professional Summary</label>
@@ -240,10 +258,10 @@ export default function CVMaker() {
                   </button>
                 )}
                 <div className="grid md:grid-cols-2 gap-6 mb-4">
-                  <InputField label="Company" value={exp.company} onChange={(v) => handleInputChange('experience', 'company', v, index)} placeholder="Google" />
+                  <InputField label="Company" value={exp.company} onChange={(v) => handleInputChange('experience', 'company', v, index)} autoFocus={lastAddedIndex.section === 'experience' && lastAddedIndex.index === index} placeholder="Google" />
                   <InputField label="Job Role" value={exp.role} onChange={(v) => handleInputChange('experience', 'role', v, index)} placeholder="Software Engineer" />
                   <InputField label="Start Date" value={exp.startDate} onChange={(v) => handleInputChange('experience', 'startDate', v, index)} placeholder="Jan 2022" />
-                  <InputField label="End Date" value={exp.endDate} onChange={(v) => handleInputChange('experience', 'endDate', v, index)} placeholder="Present" />
+                  <InputField label="End Date" value={exp.endDate} onChange={(v) => handleInputChange('experience', 'endDate', v, index)} onKeyDown={(e) => { if(e.key === 'Enter') addItem('experience', { company: '', role: '', startDate: '', endDate: '', description: '' }) }} placeholder="Present" />
                 </div>
                 <textarea 
                   className="w-full p-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-100 outline-none transition-all min-h-[100px] text-sm"
@@ -270,10 +288,10 @@ export default function CVMaker() {
                   </button>
                 )}
                 <div className="grid md:grid-cols-2 gap-6">
-                  <InputField label="School/University" value={edu.school} onChange={(v) => handleInputChange('education', 'school', v, index)} placeholder="Stanford University" />
+                  <InputField label="School/University" value={edu.school} onChange={(v) => handleInputChange('education', 'school', v, index)} autoFocus={lastAddedIndex.section === 'education' && lastAddedIndex.index === index} placeholder="Stanford University" />
                   <InputField label="Degree/Major" value={edu.degree} onChange={(v) => handleInputChange('education', 'degree', v, index)} placeholder="B.Sc in Computer Science" />
                   <InputField label="Start Date" value={edu.startDate} onChange={(v) => handleInputChange('education', 'startDate', v, index)} placeholder="2018" />
-                  <InputField label="End Date" value={edu.endDate} onChange={(v) => handleInputChange('education', 'endDate', v, index)} placeholder="2022" />
+                  <InputField label="End Date" value={edu.endDate} onChange={(v) => handleInputChange('education', 'endDate', v, index)} onKeyDown={(e) => { if(e.key === 'Enter') addItem('education', { school: '', degree: '', startDate: '', endDate: '' }) }} placeholder="2022" />
                 </div>
               </div>
             ))}
@@ -293,7 +311,14 @@ export default function CVMaker() {
                   <div key={index} className="flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-xl font-bold border border-blue-100">
                     <input 
                       type="text" 
+                      autoFocus={lastAddedIndex.section === 'skills' && lastAddedIndex.index === index}
                       value={skill} 
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          addItem('skills', '');
+                        }
+                      }}
                       onChange={(e) => {
                         const newSkills = [...cvData.skills];
                         newSkills[index] = e.target.value;
@@ -315,10 +340,10 @@ export default function CVMaker() {
                 {cvData.training.map((t, index) => (
                   <div key={index} className="space-y-3 p-4 rounded-2xl bg-slate-50 relative group">
                     <button onClick={() => removeItem('training', index)} className="absolute -top-2 -right-2 w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"><Trash2 size={10} /></button>
-                    <input type="text" value={t.title} onChange={(e) => handleInputChange('training', 'title', e.target.value, index)} placeholder="Course Title" className="w-full bg-transparent font-bold text-sm outline-none" />
+                    <input type="text" value={t.title} onChange={(e) => handleInputChange('training', 'title', e.target.value, index)} autoFocus={lastAddedIndex.section === 'training' && lastAddedIndex.index === index} placeholder="Course Title" className="w-full bg-transparent font-bold text-sm outline-none" />
                     <div className="flex justify-between gap-4">
                       <input type="text" value={t.organization} onChange={(e) => handleInputChange('training', 'organization', e.target.value, index)} placeholder="Organization" className="flex-1 bg-transparent text-xs outline-none opacity-60" />
-                      <input type="text" value={t.year} onChange={(e) => handleInputChange('training', 'year', e.target.value, index)} placeholder="Year" className="w-16 bg-transparent text-xs outline-none opacity-60 text-right" />
+                      <input type="text" value={t.year} onChange={(e) => handleInputChange('training', 'year', e.target.value, index)} onKeyDown={(e) => { if(e.key === 'Enter') addItem('training', { title: '', organization: '', year: '' }) }} placeholder="Year" className="w-16 bg-transparent text-xs outline-none opacity-60 text-right" />
                     </div>
                   </div>
                 ))}
@@ -331,7 +356,7 @@ export default function CVMaker() {
                 {cvData.languages.map((l, index) => (
                   <div key={index} className="flex gap-4 p-4 rounded-2xl bg-slate-50 relative group">
                     <button onClick={() => removeItem('languages', index)} className="absolute -top-2 -right-2 w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"><Trash2 size={10} /></button>
-                    <input type="text" value={l.language} onChange={(e) => handleInputChange('languages', 'language', e.target.value, index)} placeholder="Language" className="flex-1 bg-transparent font-bold text-sm outline-none" />
+                    <input type="text" value={l.language} onChange={(e) => handleInputChange('languages', 'language', e.target.value, index)} autoFocus={lastAddedIndex.section === 'languages' && lastAddedIndex.index === index} onKeyDown={(e) => { if(e.key === 'Enter') addItem('languages', { language: '', level: 'Native' }) }} placeholder="Language" className="flex-1 bg-transparent font-bold text-sm outline-none" />
                     <select value={l.level} onChange={(e) => handleInputChange('languages', 'level', e.target.value, index)} className="bg-transparent text-xs font-bold outline-none border-b border-slate-200">
                       <option>Native</option>
                       <option>Fluent</option>
@@ -352,9 +377,9 @@ export default function CVMaker() {
                   {cvData.references.map((r, index) => (
                     <div key={index} className="space-y-3 p-6 rounded-3xl bg-slate-50 relative group border border-slate-100">
                       <button onClick={() => removeItem('references', index)} className="absolute -top-2 -right-2 w-7 h-7 bg-red-100 text-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-md"><Trash2 size={12} /></button>
-                      <input type="text" value={r.name} onChange={(e) => handleInputChange('references', 'name', e.target.value, index)} placeholder="Reference Name" className="w-full bg-transparent font-black text-slate-800 outline-none" />
+                      <input type="text" value={r.name} onChange={(e) => handleInputChange('references', 'name', e.target.value, index)} autoFocus={lastAddedIndex.section === 'references' && lastAddedIndex.index === index} placeholder="Reference Name" className="w-full bg-transparent font-black text-slate-800 outline-none" />
                       <input type="text" value={r.company} onChange={(e) => handleInputChange('references', 'company', e.target.value, index)} placeholder="Company / Relationship" className="w-full bg-transparent text-xs font-bold text-blue-600 outline-none" />
-                      <input type="text" value={r.contact} onChange={(e) => handleInputChange('references', 'contact', e.target.value, index)} placeholder="Email or Phone" className="w-full bg-transparent text-xs text-slate-400 outline-none" />
+                      <input type="text" value={r.contact} onChange={(e) => handleInputChange('references', 'contact', e.target.value, index)} onKeyDown={(e) => { if(e.key === 'Enter') addItem('references', { name: '', company: '', contact: '' }) }} placeholder="Email or Phone" className="w-full bg-transparent text-xs text-slate-400 outline-none" />
                     </div>
                   ))}
                   <button onClick={() => addItem('references', { name: '', company: '', contact: '' })} className="aspect-video border-2 border-dashed border-slate-200 rounded-3xl text-slate-400 font-bold hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all flex flex-col items-center justify-center gap-2">
@@ -376,6 +401,7 @@ export default function CVMaker() {
                         type="text" 
                         value={cs.title} 
                         onChange={(e) => handleInputChange('customSections', 'title', e.target.value, index)} 
+                        autoFocus={lastAddedIndex.section === 'customSections' && lastAddedIndex.index === index}
                         placeholder="Section Title (e.g. Volunteering, Projects, Hobbies)" 
                         className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none mb-6 placeholder:text-slate-200" 
                       />
@@ -394,6 +420,35 @@ export default function CVMaker() {
                     Add Custom Section
                   </button>
                 </div>
+              </div>
+            </div>
+
+            <div className="space-y-4 pt-8 border-t border-slate-100">
+              <label className="text-sm font-bold text-slate-700 ml-1">Key Achievements</label>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {cvData.achievements.map((ach, index) => (
+                  <div key={index} className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-xl font-bold border border-emerald-100">
+                    <input 
+                      type="text" 
+                      autoFocus={lastAddedIndex.section === 'achievements' && lastAddedIndex.index === index}
+                      value={ach} 
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          addItem('achievements', '');
+                        }
+                      }}
+                      onChange={(e) => {
+                        const newAch = [...cvData.achievements];
+                        newAch[index] = e.target.value;
+                        setCvData({...cvData, achievements: newAch});
+                      }}
+                      className="bg-transparent outline-none w-32 text-sm"
+                    />
+                    <button onClick={() => removeItem('achievements', index)} className="hover:text-red-500"><Trash2 size={12} /></button>
+                  </div>
+                ))}
+                <button onClick={() => addItem('achievements', '')} className="p-2 bg-slate-100 text-slate-500 rounded-xl hover:bg-emerald-600 hover:text-white transition-all"><Plus size={16}/></button>
               </div>
             </div>
           </motion.div>
@@ -663,6 +718,14 @@ function ClassicSerifTemplate({ data }) {
               {data.skills.map((s, i) => <span key={i}>{s}</span>)}
             </div>
           </section>
+          {data.achievements?.length > 0 && data.achievements[0] !== '' && (
+            <section>
+              <h3 className="text-sm font-bold uppercase tracking-widest border-b border-slate-900 mb-4 pb-1">Achievements</h3>
+              <ul className="list-disc pl-4 space-y-1 text-sm">
+                {data.achievements.map((a, i) => a && <li key={i}>{a}</li>)}
+              </ul>
+            </section>
+          )}
           {data.languages?.length > 0 && (
             <section className="mt-8">
               <h3 className="text-sm font-bold uppercase tracking-widest border-b border-slate-900 mb-4 pb-1">Languages</h3>
@@ -822,7 +885,23 @@ function AtlanticBlueTemplate({ data }) {
                  </div>
                ))}
             </div>
-         </section>
+          </section>
+          {data.achievements?.length > 0 && data.achievements[0] !== '' && (
+             <section className="mt-10">
+                <div className="flex items-center gap-4 mb-6">
+                  <Award className="text-blue-600" />
+                  <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">Achievements</h3>
+                  <div className="flex-1 h-px bg-slate-100" />
+                </div>
+                <div className="space-y-2">
+                  {data.achievements.map((a, i) => a && (
+                    <div key={i} className="flex items-start gap-3 text-xs text-slate-500">
+                      <div className="w-1 h-1 rounded-full bg-blue-500 mt-1.5" /> {a}
+                    </div>
+                  ))}
+                </div>
+             </section>
+          )}
          {data.customSections?.map((cs, i) => (
            cs.title && (
              <section key={i} className="mt-10">
@@ -900,6 +979,16 @@ function MercuryFlowTemplate({ data }) {
                  ))}
               </div>
            </section>
+           {data.achievements?.length > 0 && data.achievements[0] !== '' && (
+             <section>
+                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-300 mb-6">Achievements</h3>
+                <div className="space-y-2">
+                   {data.achievements.map((a, i) => a && (
+                     <p key={i} className="text-[10px] text-slate-500 italic bg-white p-2 rounded-lg border border-slate-100">• {a}</p>
+                   ))}
+                </div>
+             </section>
+           )}
            {data.languages?.length > 0 && (
              <section>
                 <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-300 mb-6">Languages</h3>
@@ -1012,6 +1101,19 @@ function EditorialRuleTemplate({ data }) {
                  ))}
               </div>
            </section>
+           {data.achievements?.length > 0 && data.achievements[0] !== '' && (
+             <section>
+                <h3 className="text-xs font-black uppercase tracking-[0.4em] mb-6">Achievements</h3>
+                <div className="space-y-4">
+                   {data.achievements.map((a, i) => a && (
+                     <div key={i} className="text-xs font-medium leading-relaxed pb-2 border-b border-slate-100 flex gap-4">
+                        <span className="font-black text-slate-300">0{i+1}</span>
+                        <span>{a}</span>
+                     </div>
+                   ))}
+                </div>
+             </section>
+           )}
         </div>
         
         {data.training?.length > 0 && (
@@ -1097,6 +1199,18 @@ function SaffronLineTemplate({ data }) {
                    ))}
                 </div>
              </section>
+             {data.achievements?.length > 0 && data.achievements[0] !== '' && (
+                <section>
+                  <h4 className="text-xs font-black uppercase tracking-[0.2em] mb-4 text-slate-300">Achievements</h4>
+                  <div className="space-y-3">
+                     {data.achievements.map((a, i) => a && (
+                       <div key={i} className="flex items-start gap-3 text-[10px] font-bold">
+                          <div className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-1" /> {a}
+                       </div>
+                     ))}
+                  </div>
+                </section>
+             )}
              {data.languages?.length > 0 && (
                <section>
                   <h4 className="text-xs font-black uppercase tracking-[0.2em] mb-4 text-slate-300">Languages</h4>
@@ -1244,6 +1358,19 @@ function SteadyFormTemplate({ data }) {
                  ))}
               </div>
            </section>
+           {data.achievements?.length > 0 && data.achievements[0] !== '' && (
+              <section>
+                <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-300 mb-6">Achievements</h3>
+                <div className="space-y-3">
+                   {data.achievements.map((a, i) => a && (
+                     <div key={i} className="text-xs font-medium flex gap-3 items-start">
+                        <Award size={14} className="text-emerald-500 mt-0.5" />
+                        <span>{a}</span>
+                     </div>
+                   ))}
+                </div>
+              </section>
+           )}
            {data.languages?.length > 0 && (
              <section className="mt-10">
                 <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-300 mb-6">Languages</h3>
@@ -1311,7 +1438,7 @@ function Section({ title, children, accent }) {
   );
 }
 
-function InputField({ label, value, onChange, icon: Icon, placeholder }) {
+function InputField({ label, value, onChange, onKeyDown, icon: Icon, placeholder, autoFocus }) {
   return (
     <div className="space-y-2">
       <label className="text-sm font-bold text-slate-700 ml-1">{label}</label>
@@ -1319,8 +1446,10 @@ function InputField({ label, value, onChange, icon: Icon, placeholder }) {
         {Icon && <Icon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-500 transition-colors" size={18} />}
         <input 
           type="text" 
+          autoFocus={autoFocus}
           value={value} 
           onChange={(e) => onChange(e.target.value)}
+          onKeyDown={onKeyDown}
           placeholder={placeholder}
           className={`w-full ${Icon ? 'pl-12' : 'px-4'} py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-blue-100 focus:border-blue-400 outline-none transition-all bg-slate-50/50 font-medium text-slate-900 placeholder:text-slate-300`}
         />
