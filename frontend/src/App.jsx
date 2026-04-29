@@ -49,26 +49,97 @@ function Home() {
           </div>
         </motion.div>
 
-        {/* 3D Premium Asset */}
+        {/* 3D Floating Tool Cards */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: "backOut" }}
-          className="flex-1 relative"
+          initial={{ opacity: 0, x: 60 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+          className="flex-1 relative hidden lg:flex items-center justify-center"
+          style={{ minHeight: '480px' }}
         >
-          <div className="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
-            {/* Animated Glow Backdrops */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-400/20 blur-[120px] rounded-full animate-pulse" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-purple-400/10 blur-[80px] rounded-full animate-pulse delay-700" />
+          {/* Glow Backdrop */}
+          <div className="absolute inset-0 bg-gradient-radial from-blue-200/40 via-purple-100/20 to-transparent blur-3xl rounded-full" />
+          <div className="absolute w-72 h-72 bg-blue-300/20 blur-[100px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
 
-            <motion.img
-              src="/hero_3d_element.png"
-              alt="3D Tool Hub Graphic"
-              className="w-full h-full object-contain relative z-10 drop-shadow-[0_35px_35px_rgba(59,130,246,0.3)]"
-              animate={{ y: [0, -25, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </div>
+          {/* Card: Background Remover — top center */}
+          <motion.div
+            animate={{ y: [0, -12, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0 }}
+            className="absolute top-0 left-1/2 -translate-x-1/4 bg-white/70 backdrop-blur-xl border border-white/60 shadow-2xl shadow-blue-200/40 rounded-3xl p-5 w-52 z-20"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white shadow-lg shadow-blue-400/40 flex-shrink-0">
+                <Scissors size={18} />
+              </div>
+              <span className="font-black text-slate-800 text-sm leading-tight">Background Remover</span>
+            </div>
+            <p className="text-[11px] text-slate-400 font-medium leading-relaxed">Remove background in one click with AI</p>
+            <div className="mt-3 w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center">
+              <ChevronRight size={14} className="text-slate-500" />
+            </div>
+          </motion.div>
+
+          {/* Card: File Converter — middle left */}
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+            className="absolute top-1/2 left-0 -translate-y-1/2 bg-white/70 backdrop-blur-xl border border-white/60 shadow-2xl shadow-purple-200/40 rounded-3xl p-5 w-48 z-20"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-white shadow-lg shadow-purple-400/40 flex-shrink-0">
+                <FileText size={18} />
+              </div>
+              <span className="font-black text-slate-800 text-sm leading-tight">File Converter</span>
+            </div>
+            <p className="text-[11px] text-slate-400 font-medium leading-relaxed">Convert documents and images instantly</p>
+            <div className="mt-3 w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center">
+              <ChevronRight size={14} className="text-slate-500" />
+            </div>
+          </motion.div>
+
+          {/* Card: Media Downloader — center */}
+          <motion.div
+            animate={{ y: [0, -14, 0] }}
+            transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-2xl border border-white/80 shadow-2xl shadow-slate-300/50 rounded-3xl p-5 w-52 z-30"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-green-400/40 flex-shrink-0">
+                <Zap size={18} />
+              </div>
+              <span className="font-black text-slate-800 text-sm leading-tight">Media Downloader</span>
+            </div>
+            <p className="text-[11px] text-slate-400 font-medium leading-relaxed">Download videos and audio in high quality</p>
+            <div className="mt-3 w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center">
+              <ChevronRight size={14} className="text-slate-500" />
+            </div>
+          </motion.div>
+
+          {/* Card: CV Maker — right */}
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+            className="absolute top-1/2 right-0 -translate-y-2/3 bg-white/70 backdrop-blur-xl border border-white/60 shadow-2xl shadow-orange-200/40 rounded-3xl p-5 w-44 z-20"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white shadow-lg shadow-orange-400/40 flex-shrink-0">
+                <Sparkles size={18} />
+              </div>
+              <span className="font-black text-slate-800 text-sm leading-tight">CV Maker</span>
+            </div>
+            <p className="text-[11px] text-slate-400 font-medium leading-relaxed">Create professional resumes in minutes</p>
+            <div className="mt-3 w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center">
+              <ChevronRight size={14} className="text-slate-500" />
+            </div>
+          </motion.div>
+
+          {/* Floating Decorative Orbs */}
+          <motion.div animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            className="absolute top-8 left-1/4 w-8 h-8 rounded-2xl bg-gradient-to-br from-blue-300/60 to-purple-300/60 backdrop-blur-sm border border-white/50 shadow-lg z-10" />
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute bottom-16 left-1/3 w-5 h-5 rounded-full bg-purple-300/60 backdrop-blur-sm border border-white/50 shadow-md z-10" />
+          <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            className="absolute bottom-8 right-1/4 w-6 h-6 rounded-full bg-blue-200/80 backdrop-blur-sm border border-white/50 shadow-md z-10" />
         </motion.div>
       </section>
 
