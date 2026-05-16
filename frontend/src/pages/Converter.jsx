@@ -138,28 +138,28 @@ export default function Converter() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-[80vh] px-6 py-12 max-w-5xl mx-auto w-full">
+    <div className="flex flex-col items-center min-h-[80vh] px-4 md:px-6 py-12 max-w-5xl mx-auto w-full">
       {/* Header */}
-      <div className="text-center mb-14">
-        <h1 className="text-5xl font-black mb-3 tracking-tighter text-slate-900">File Converter</h1>
-        <p className="text-slate-500 font-medium">11 Formats · Multi-file · Instant Download</p>
+      <div className="text-center mb-10 md:mb-14">
+        <h1 className="text-3xl md:text-5xl font-black mb-3 tracking-tighter text-slate-900">File Converter</h1>
+        <p className="text-slate-500 text-sm md:text-base font-medium px-4">11 Formats · Multi-file · Instant Download</p>
       </div>
 
       {/* Step Indicator */}
-      <div className="w-full flex justify-between mb-14 relative">
-        <div className="absolute top-[26px] left-0 w-full h-1 bg-slate-100 z-0 rounded-full" />
+      <div className="w-full flex justify-between mb-10 md:mb-14 relative px-2">
+        <div className="absolute top-[20px] md:top-[26px] left-0 w-full h-1 bg-slate-100 z-0 rounded-full" />
         {STEPS.map((step) => {
           const isActive = currentStep === step.id;
           const isDone = currentStep > step.id;
           return (
-            <div key={step.id} className="relative z-10 flex flex-col items-center gap-2">
-              <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all border-4 ${isActive ? 'bg-blue-600 border-blue-100 text-white shadow-xl scale-110' :
+            <div key={step.id} className="relative z-10 flex flex-col items-center gap-1 md:gap-2">
+              <div className={`w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all border-2 md:border-4 ${isActive ? 'bg-blue-600 border-blue-100 text-white shadow-xl scale-110' :
                   isDone ? 'bg-emerald-500 border-emerald-50 text-white' :
                     'bg-white border-slate-100 text-slate-300'
                 }`}>
-                {isDone ? <CheckCircle2 size={24} /> : <step.icon size={24} />}
+                {isDone ? <CheckCircle2 size={16} className="md:w-6 md:h-6" /> : <step.icon size={16} className="md:w-6 md:h-6" />}
               </div>
-              <span className={`text-[10px] font-black uppercase tracking-widest ${isActive ? 'text-blue-600' : 'text-slate-400'}`}>
+              <span className={`text-[8px] md:text-[10px] font-black uppercase tracking-tighter md:tracking-widest ${isActive ? 'text-blue-600' : 'text-slate-400'}`}>
                 {step.name}
               </span>
             </div>
@@ -168,7 +168,7 @@ export default function Converter() {
       </div>
 
       {/* Card */}
-      <div className="w-full glass-card p-10 bg-white/90 border-slate-50 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.06)]">
+      <div className="w-full glass-card p-6 md:p-10 bg-white/90 border-slate-50 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.06)]">
         <AnimatePresence mode="wait">
 
           {/* STEP 1 — FORMAT PICKER */}
@@ -210,9 +210,9 @@ export default function Converter() {
 
               <button
                 onClick={() => setCurrentStep(2)}
-                className={`mt-10 w-full py-5 text-white rounded-3xl font-black shadow-xl flex items-center justify-center gap-3 transition-all hover:scale-[1.02] ${colors.btn} shadow-blue-500/20`}
+                className={`mt-10 w-full py-4 md:py-5 text-white rounded-3xl font-black shadow-xl flex items-center justify-center gap-2 md:gap-3 transition-all hover:scale-[1.02] ${colors.btn} shadow-blue-500/20 text-sm md:text-base`}
               >
-                Continue — Convert to {selectedInfo.name} <ArrowRight size={20} />
+                Continue — Convert to {selectedInfo.name} <ArrowRight size={18} className="md:w-5 md:h-5" />
               </button>
             </motion.div>
           )}
@@ -235,11 +235,11 @@ export default function Converter() {
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => { e.preventDefault(); handleFileChange({ target: { files: e.dataTransfer.files } }); }}
                 onClick={() => fileInputRef.current.click()}
-                className="w-full min-h-[220px] border-4 border-dashed border-slate-100 rounded-[36px] flex flex-col items-center justify-center hover:border-blue-400 hover:bg-blue-50/20 transition-all cursor-pointer group"
+                className="w-full min-h-[160px] md:min-h-[220px] border-4 border-dashed border-slate-100 rounded-[32px] md:rounded-[36px] flex flex-col items-center justify-center hover:border-blue-400 hover:bg-blue-50/20 transition-all cursor-pointer group p-6 text-center"
               >
-                <UploadCloud size={52} className="mb-3 text-slate-200 group-hover:text-blue-500 transition-colors" />
-                <p className="text-xl font-black text-slate-900">Drop Files Here</p>
-                <p className="text-sm font-medium text-slate-400 mt-1">or click to browse · Multi-file supported</p>
+                <UploadCloud size={40} className="md:w-[52px] md:h-[52px] mb-3 text-slate-200 group-hover:text-blue-500 transition-colors" />
+                <p className="text-lg md:text-xl font-black text-slate-900">Drop Files Here</p>
+                <p className="text-xs md:text-sm font-medium text-slate-400 mt-1">or click to browse · Multi-file supported</p>
                 <input type="file" multiple ref={fileInputRef} onChange={handleFileChange} className="hidden" />
               </div>
 
@@ -259,7 +259,7 @@ export default function Converter() {
                             {f.ext}
                           </div>
                           <div>
-                            <p className="text-sm font-bold text-slate-900 truncate max-w-[260px]">{f.name}</p>
+                            <p className="text-sm font-bold text-slate-900 truncate max-w-[120px] xs:max-w-[200px] md:max-w-[260px]">{f.name}</p>
                             <p className="text-[10px] text-slate-400 font-bold">{f.size}</p>
                           </div>
                         </div>

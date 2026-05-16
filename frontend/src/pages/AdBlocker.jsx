@@ -27,33 +27,33 @@ const AdBlocker = () => {
   ];
 
   return (
-    <div className="pt-32 pb-20 px-6 max-w-5xl mx-auto">
+    <div className="pt-24 md:pt-32 pb-20 px-6 max-w-5xl mx-auto">
       {/* Header */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-12 md:mb-16">
         <motion.div 
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="inline-flex items-center justify-center w-20 h-20 bg-blue-100 text-blue-600 rounded-3xl mb-6 shadow-xl shadow-blue-500/10"
+          className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-blue-100 text-blue-600 rounded-3xl mb-6 shadow-xl shadow-blue-500/10"
         >
-          <Shield size={40} />
+          <Shield size={32} className="md:w-10 md:h-10" />
         </motion.div>
-        <h1 className="text-5xl font-black mb-6">ToolsHub <span className="text-blue-600">AdBlocker</span></h1>
-        <p className="text-xl text-slate-500 max-w-2xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-black mb-6">ToolsHub <span className="text-blue-600">AdBlocker</span></h1>
+        <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto">
           Experience a faster, cleaner, and safer web. Block annoying ads, popups, and trackers with our premium browser extension.
         </p>
       </div>
 
       {/* Main Action */}
-      <div className="glass-card p-10 mb-20 text-center relative overflow-hidden group">
+      <div className="glass-card p-6 md:p-10 mb-16 md:mb-20 text-center relative overflow-hidden group">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 pointer-events-none" />
-        <h2 className="text-3xl font-bold mb-4">Ready to block ads?</h2>
-        <p className="text-slate-500 mb-8 max-w-md mx-auto">Download the latest version of ToolsHub AdBlocker for Chrome and Edge.</p>
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to block ads?</h2>
+        <p className="text-slate-500 mb-8 max-w-md mx-auto text-sm md:text-base">Download the latest version of ToolsHub AdBlocker for Chrome and Edge.</p>
         <a 
           href="/toolshub-adblocker.zip" 
           download 
-          className="inline-flex items-center gap-3 px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-3xl font-bold text-lg shadow-2xl shadow-blue-500/30 transition-all hover:scale-105 active:scale-95"
+          className="inline-flex items-center gap-3 px-8 py-4 md:px-10 md:py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-3xl font-bold text-base md:text-lg shadow-2xl shadow-blue-500/30 transition-all hover:scale-105 active:scale-95"
         >
-          <Download size={24} /> Download Extension (v1.0)
+          <Download size={20} className="md:w-6 md:h-6" /> Download Extension (v1.0)
         </a>
       </div>
 
@@ -64,16 +64,16 @@ const AdBlocker = () => {
         </h2>
         <div className="grid md:grid-cols-2 gap-8">
           {steps.map((step, idx) => (
-            <div key={idx} className="flex gap-6 p-6 rounded-3xl border border-slate-100 bg-white/50 hover:border-blue-100 transition-colors">
-              <div className="flex-shrink-0 w-12 h-12 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center font-black text-xl">
+            <div key={idx} className="flex flex-col sm:flex-row gap-4 sm:gap-6 p-6 rounded-3xl border border-slate-100 bg-white/50 hover:border-blue-100 transition-colors">
+              <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center font-black text-lg md:text-xl">
                 {idx + 1}
               </div>
               <div>
-                <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
-                  <step.icon size={20} className="text-blue-600" />
+                <h3 className="text-lg md:text-xl font-bold mb-2 flex items-center gap-2">
+                  <step.icon size={18} className="text-blue-600 md:w-5 md:h-5" />
                   {step.title}
                 </h3>
-                <p className="text-slate-500 leading-relaxed">{step.desc}</p>
+                <p className="text-slate-500 text-sm md:text-base leading-relaxed">{step.desc}</p>
               </div>
             </div>
           ))}

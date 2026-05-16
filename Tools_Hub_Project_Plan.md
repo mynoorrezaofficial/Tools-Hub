@@ -1,6 +1,12 @@
 # Tools Hub Project Plan
 **by Mynoor Reza**
 
+<div align="center">
+  <img src="Preview_Tools.png" alt="Tools Hub Preview" width="100%" style="border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);" />
+</div>
+
+<br />
+
 ---
 
 ## 1. Project Overview
@@ -11,6 +17,7 @@ The MVP includes:
 - File converter (Document & Image format routing)
 - Media Downloader (High-quality MP4/MP3 extraction from URL)
 - Ad Blocker (Browser extension for Chrome/Edge)
+- Theme Extension (Aesthetic New Tab customizer)
 - CV Maker (Professional PDF/Word resume generator)
 
 **Future features may include:**
@@ -69,33 +76,31 @@ The MVP includes:
 ---
 
 ## 3. Project Structure
-tools-hub/
-│
-├── frontend/ # React App
-│ ├── src/
-│ │ ├── components/ # Navbar, Footer, Buttons
-│   │   ├── pages/ # Home, BgRemove, Converter, MediaDownloader, AdBlocker, CVMaker
-│   │   ├── App.jsx
-│   │   └── index.css
-│   └── public/
-│       └── index.html
-│
-├── backend/ # Flask API (Active Venv)
-│   ├── app.py # Main application router
-│   ├── modules/ # Core processing logic
-│   │   ├── bg_remove.py (BiRefNet logic)
-│   │   ├── converter.py
-│   │   ├── media_downloader.py (yt-dlp core)
-│   │   └── cv_generator.py (PDF/Docx generation)
-│   ├── uploads/ # Temporary user uploads
-│   └── outputs/ # Processed file outputs
-│
-├── extensions/ # Browser extensions
-├── adblocker/ # Ad Blocker source (manifest v3)
-├── requirements.txt # Python dependencies (Flask, yt-dlp, rembg, etc.)
-├── package.json # React dependencies
-└── README.md / Tools_Hub_Project_Plan.md # Project documentation
-
+```text
+Tools_Hub/
+├── frontend/             # React + Vite Application
+│   ├── src/
+│   │   ├── components/   # UI Layout, Navbar, MobileMenu
+│   │   ├── pages/        # BgRemove, Converter, MediaDownloader, AdBlocker, CVMaker, ThemeExtension
+│   │   ├── App.jsx       # Routing & Main Layout
+│   │   └── index.css     # Global Design System
+│   └── public/           # Static assets (logo.svg, zip files, preview images)
+├── backend/              # Flask API (Active Venv)
+│   ├── app.py            # Main application router
+│   ├── modules/          # Core processing logic
+│   │   ├── bg_remove.py  # BiRefNet logic
+│   │   ├── converter.py  # File format routing
+│   │   ├── downloader.py # Media extraction (yt-dlp)
+│   │   └── cv_maker.py   # PDF/Docx generation logic
+│   ├── uploads/          # Temporary user uploads
+│   └── outputs/          # Processed file outputs
+├── extensions/           # Browser extensions
+│   ├── adblocker/        # Ad Blocker source (manifest v3)
+│   └── Theme_Extension/  # Theme Extension source (manifest v3)
+├── requirements.txt      # Python dependencies
+├── package.json          # Node dependencies
+└── README.md             # Public documentation
+```
 ---
 
 ## 4. Page Flow (User Journey)
@@ -136,6 +141,13 @@ tools-hub/
 - **Dynamic Custom Sections:** Users can create and style their own sections with custom titles and content.
 - **Real-time Preview:** Visualizes changes instantly using actual component rendering.
 - **Flexible Export:** One-click download as PDF or Word (Docx), with export actions prioritized at the top.
+
+### 4.7 Theme Extension Page
+- **Landing UI:** High-impact header with a vibrant, glowing aesthetic.
+- **Visual Preview:** A dedicated section with a large screenshot of the extension interface.
+- **Feature Showcase:** Grid view of core capabilities (Dynamic Themes, Weather, Voice Search).
+- **Download Action:** Direct access to `theme-extension.zip` for manual installation.
+- **Guided Setup:** Reusable 4-step installation component to ensure high success rates for users.
 
 ---
 

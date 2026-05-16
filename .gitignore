@@ -24,4 +24,18 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+.gemini/
 
+# Local Deployment Docs & Scripts
+*.bat
+deployment_guide.md
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Database & Misc
+backend/instance/
+.python-version

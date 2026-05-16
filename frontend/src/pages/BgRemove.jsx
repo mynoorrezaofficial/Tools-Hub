@@ -257,12 +257,12 @@ export default function BgRemove() {
         
         {/* Header - Only show if not in editor mode */}
         {!resultImg && (
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-[32px] bg-blue-100 text-blue-600 mb-8 shadow-xl shadow-blue-500/10">
-              <Scissors size={40} />
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-[24px] md:rounded-[32px] bg-blue-100 text-blue-600 mb-6 md:mb-8 shadow-xl shadow-blue-500/10">
+              <Scissors size={32} className="md:w-10 md:h-10" />
             </div>
-            <h1 className="text-5xl font-black mb-6 tracking-tight text-slate-900">Background Remover</h1>
-            <p className="text-slate-500 text-xl max-w-2xl mx-auto">
+            <h1 className="text-3xl md:text-5xl font-black mb-4 md:mb-6 tracking-tight text-slate-900">Background Remover</h1>
+            <p className="text-slate-500 text-base md:text-xl max-w-2xl mx-auto px-4">
               Powered by AI. Instantly strip backgrounds and download high-resolution transparent PNGs.
             </p>
           </div>
@@ -292,7 +292,7 @@ export default function BgRemove() {
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={handleDrop}
                     onClick={() => fileInputRef.current.click()}
-                    className="flex-1 min-h-[350px] border-4 border-dashed border-slate-100 rounded-[40px] flex flex-col items-center justify-center text-slate-400 hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer group"
+                    className="flex-1 min-h-[250px] md:min-h-[350px] border-4 border-dashed border-slate-100 rounded-[32px] md:rounded-[40px] flex flex-col items-center justify-center text-slate-400 hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer group p-6"
                   >
                     <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                       <UploadCloud size={32} className="text-slate-300 group-hover:text-blue-500" />
@@ -315,7 +315,7 @@ export default function BgRemove() {
               </div>
 
               {/* Action Section */}
-              <div className="flex flex-col justify-center items-center h-full border-l border-slate-100 pl-10">
+              <div className="flex flex-col justify-center items-center h-full border-t md:border-t-0 md:border-l border-slate-100 pt-10 md:pt-0 md:pl-10">
                  <div className="text-center w-full max-w-sm">
                     <div className="mb-8">
                        <Sparkles size={48} className="mx-auto text-blue-400 mb-4" />
@@ -343,52 +343,52 @@ export default function BgRemove() {
             <div className="flex flex-col bg-slate-100 relative min-h-[600px]">
               
               {/* TOP TOOLBAR */}
-              <div className="h-16 bg-white border-b border-slate-200 px-4 flex items-center justify-between z-20 sticky top-0">
-                <div className="flex items-center gap-1">
+              <div className="min-h-[64px] py-2 bg-white border-b border-slate-200 px-3 md:px-4 flex flex-wrap items-center justify-between gap-2 z-20 sticky top-0">
+                <div className="flex items-center gap-0.5 md:gap-1 overflow-x-auto no-scrollbar pb-1 md:pb-0">
                   <button 
                     onClick={() => setActiveTab('cutout')}
-                    className={`px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 transition-colors ${activeTab === 'cutout' ? 'bg-slate-100 text-slate-900' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
+                    className={`px-3 md:px-4 py-2 rounded-full font-bold text-xs md:text-sm flex items-center gap-1.5 md:gap-2 transition-colors flex-shrink-0 ${activeTab === 'cutout' ? 'bg-slate-100 text-slate-900' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
                   >
-                    <Scissors size={18} /> Cutout
+                    <Scissors size={16} className="md:w-[18px] md:h-[18px]" /> Cutout
                   </button>
                   <button 
                     onClick={() => setActiveTab('background')}
-                    className={`px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 transition-colors ${activeTab === 'background' ? 'bg-slate-100 text-slate-900' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
+                    className={`px-3 md:px-4 py-2 rounded-full font-bold text-xs md:text-sm flex items-center gap-1.5 md:gap-2 transition-colors flex-shrink-0 ${activeTab === 'background' ? 'bg-slate-100 text-slate-900' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
                   >
-                    <Palette size={18} /> Background
+                    <Palette size={16} className="md:w-[18px] md:h-[18px]" /> Background
                   </button>
                   <button 
                     onClick={() => setActiveTab('adjust')}
-                    className={`px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 transition-colors ${activeTab === 'adjust' ? 'bg-slate-100 text-slate-900' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
+                    className={`px-3 md:px-4 py-2 rounded-full font-bold text-xs md:text-sm flex items-center gap-1.5 md:gap-2 transition-colors flex-shrink-0 ${activeTab === 'adjust' ? 'bg-slate-100 text-slate-900' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
                   >
-                    <SlidersHorizontal size={18} /> Adjust
+                    <SlidersHorizontal size={16} className="md:w-[18px] md:h-[18px]" /> Adjust
                   </button>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center bg-slate-100 rounded-full px-2 py-1">
+                <div className="flex items-center gap-2 md:gap-4 ml-auto">
+                  <div className="hidden sm:flex items-center bg-slate-100 rounded-full px-2 py-1">
                     <button onClick={() => setZoom(Math.max(0.2, zoom - 0.2))} className="p-1.5 text-slate-500 hover:text-slate-900 transition-colors"><ZoomOut size={16} /></button>
                     <span className="text-[10px] font-black w-10 text-center text-slate-500">{Math.round(zoom * 100)}%</span>
                     <button onClick={() => setZoom(Math.min(5, zoom + 0.2))} className="p-1.5 text-slate-500 hover:text-slate-900 transition-colors"><ZoomIn size={16} /></button>
                   </div>
 
-                  <div className="flex gap-2">
-                     <button onClick={handleUndo} disabled={history.length <= 1} className={`p-2 rounded-full transition-all ${history.length <= 1 ? 'text-slate-200' : 'text-slate-400 hover:text-blue-600 hover:bg-blue-50'}`} title="Undo Brush Stroke"><Undo size={18} /></button>
-                     <button onClick={resetEditor} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all" title="Reset All Edits"><RotateCcw size={18} /></button>
+                  <div className="flex gap-1 md:gap-2">
+                     <button onClick={handleUndo} disabled={history.length <= 1} className={`p-2 rounded-full transition-all ${history.length <= 1 ? 'text-slate-200' : 'text-slate-400 hover:text-blue-600 hover:bg-blue-50'}`} title="Undo"><Undo size={16} className="md:w-[18px] md:h-[18px]" /></button>
+                     <button onClick={resetEditor} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all" title="Reset"><RotateCcw size={16} className="md:w-[18px] md:h-[18px]" /></button>
                   </div>
-                  <div className="h-6 w-px bg-slate-200"></div>
+                  <div className="h-6 w-px bg-slate-200 hidden xs:block"></div>
                   
                   <button onClick={() => {
                      setResultImg(null);
                      setPreview(null);
                      setFile(null);
-                  }} className="text-sm font-bold text-slate-500 hover:text-slate-900 pr-2 transition-colors">Start Over</button>
+                  }} className="text-xs md:text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">Start Over</button>
 
                   <button
                     onClick={handleDownload}
-                    className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold flex items-center gap-2 shadow-lg shadow-blue-500/20 active:scale-95 transition-all"
+                    className="px-4 md:px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold text-xs md:text-sm flex items-center gap-1.5 md:gap-2 shadow-lg shadow-blue-500/20 active:scale-95 transition-all"
                   >
-                    <Download size={18} />
+                    <Download size={16} className="md:w-[18px] md:h-[18px]" />
                     Download
                   </button>
                 </div>
@@ -405,10 +405,10 @@ export default function BgRemove() {
                 <AnimatePresence>
                     <motion.div 
                       key={activeTab}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20, transition: { duration: 0.15 } }}
-                      className="absolute top-6 left-6 z-10 w-72 bg-white/95 backdrop-blur-xl p-6 rounded-[24px] shadow-2xl border border-slate-100"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 20, transition: { duration: 0.15 } }}
+                      className="absolute bottom-6 left-6 right-6 md:top-6 md:bottom-auto md:left-6 md:right-auto z-10 w-auto md:w-72 bg-white/95 backdrop-blur-xl p-5 md:p-6 rounded-[24px] shadow-2xl border border-slate-100"
                     >
                       {activeTab === 'cutout' && (
                         <div>
