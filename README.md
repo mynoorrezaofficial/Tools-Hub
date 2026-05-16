@@ -1,5 +1,11 @@
 # 🚀 Tools Hub: The All-in-One Student Toolkit
 
+<div align="center">
+  <img src="Preview_Tools.png" alt="Tools Hub Preview" width="100%" style="border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);" />
+</div>
+
+<br />
+
 **Tools Hub** is a premium, open-source productivity suite designed specifically for modern student workflows. It combines artificial intelligence with robust file processing to provide a seamless "all-in-one" experience for handling assignments, presentations, and media.
 
 ![Project Status](https://img.shields.io/badge/Status-Active-brightgreen)
@@ -42,6 +48,19 @@ A high-performance, multi-step resume builder with real-time visual feedback.
 ### 🛡️ Browser Adblocker
 A dedicated Manifest V3 browser extension for a distraction-free student experience.
 
+### 🎨 Theme Extension
+A premium Chrome extension that transforms your "New Tab" into a beautiful glassmorphism dashboard.
+- **Glassmorphism UI:** Translucent cards, vibrant gradients, and smooth blur effects.
+- **Productivity Widgets:** Integrated weather, clocks, and quick-access search.
+- **Live Preview:** View the extension's look and feel directly on the platform before installing.
+- **Easy Installation:** 4-step guide for loading unpacked extensions via Developer Mode.
+
+### 📱 Fully Mobile Responsive
+The entire platform is optimized for seamless use on smartphones and tablets.
+- **Fluid Layouts:** Collapsing grids and scaled typography for small screens.
+- **Mobile Menu:** Intuitive navigation with a dedicated mobile-friendly menu.
+- **Optimized UI:** 2-column tool grids and touch-optimized input zones.
+
 ---
 
 ## 🛠️ Technology Stack
@@ -68,7 +87,7 @@ A dedicated Manifest V3 browser extension for a distraction-free student experie
 Tools_Hub/
 ├── frontend/             # React + Vite Application
 │   ├── src/
-│   │   ├── pages/        # BgRemove, Converter, MediaDownloader, CVMaker
+│   │   ├── pages/        # BgRemove, Converter, MediaDownloader, CVMaker, ThemeExtension
 │   │   ├── components/   # UI Layout & Navbar
 │   │   └── App.jsx       # Routing & Home Page
 ├── backend/              # Flask API
@@ -76,7 +95,7 @@ Tools_Hub/
 │   ├── uploads/          # Temporary file storage
 │   ├── outputs/          # Processed file storage
 │   └── app.py            # API Routes
-├── extensions/           # Browser extensions (Adblocker)
+├── extensions/           # Browser extensions (Adblocker, Theme_Extension)
 └── run_tools_hub.bat     # One-click launch script
 ```
 

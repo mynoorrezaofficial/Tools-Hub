@@ -88,53 +88,53 @@ export default function MediaDownloader() {
         className="w-full max-w-4xl"
       >
         {/* Title Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-[32px] bg-red-100 text-red-600 mb-8 shadow-xl shadow-red-500/10">
-            <PlayCircle size={40} />
+        <div className="text-center mb-10 md:mb-16">
+          <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-[24px] md:rounded-[32px] bg-red-100 text-red-600 mb-6 md:mb-8 shadow-xl shadow-red-500/10">
+            <PlayCircle size={32} className="md:w-10 md:h-10" />
           </div>
-          <h1 className="text-5xl font-black mb-6 tracking-tight text-slate-900">Media Downloader</h1>
-          <p className="text-slate-500 text-xl max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-5xl font-black mb-4 md:mb-6 tracking-tight text-slate-900 px-2">Media Downloader</h1>
+          <p className="text-slate-500 text-base md:text-xl max-w-2xl mx-auto px-4">
             Extract high-quality video and audio from anywhere on the web.
           </p>
         </div>
 
-        <div className="glass-card p-10 bg-white/80 border-slate-100 shadow-2xl">
+        <div className="glass-card p-6 md:p-10 bg-white/80 border-slate-100 shadow-2xl">
           {error && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="mb-8 p-5 bg-red-50 border border-red-100 rounded-3xl flex items-center gap-4 text-red-600"
+              className="mb-8 p-4 md:p-5 bg-red-50 border border-red-100 rounded-3xl flex items-center gap-3 md:gap-4 text-red-600"
             >
-              <AlertCircle size={24} />
-              <p className="font-bold">{error}</p>
+              <AlertCircle size={20} className="md:w-6 md:h-6" />
+              <p className="font-bold text-sm md:text-base">{error}</p>
             </motion.div>
           )}
 
           {/* URL Input & Fetch */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-10">
+          <div className="flex flex-col md:flex-row gap-4 mb-8 md:mb-10">
             <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                <Search size={20} className="text-slate-400" />
+              <div className="absolute inset-y-0 left-0 pl-4 md:pl-5 flex items-center pointer-events-none">
+                <Search size={18} className="text-slate-400 md:w-5 md:h-5" />
               </div>
               <input
                 type="text"
-                placeholder="Paste video URL here (YouTube, Twitter, TikTok, etc.)"
+                placeholder="Paste video URL here..."
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                className="w-full pl-12 pr-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-[24px] focus:outline-none focus:border-red-400 focus:bg-white transition-all text-lg font-medium text-slate-900 placeholder:text-slate-400"
+                className="w-full pl-10 md:pl-12 pr-4 md:pr-6 py-4 md:py-5 bg-slate-50 border-2 border-slate-100 rounded-[20px] md:rounded-[24px] focus:outline-none focus:border-red-400 focus:bg-white transition-all text-base md:text-lg font-medium text-slate-900 placeholder:text-slate-400"
                 onKeyDown={(e) => e.key === 'Enter' && handleFetchInfo()}
               />
             </div>
             <button
               onClick={handleFetchInfo}
               disabled={loadingInfo || !url.trim()}
-              className={`px-10 py-5 rounded-[24px] font-black text-lg flex items-center gap-3 transition-all ${
+              className={`px-8 md:px-10 py-4 md:py-5 rounded-[20px] md:rounded-[24px] font-black text-base md:text-lg flex items-center justify-center gap-2 md:gap-3 transition-all ${
                 loadingInfo || !url.trim()
                   ? 'bg-slate-100 text-slate-300 cursor-not-allowed'
                   : 'bg-red-600 hover:bg-red-700 text-white hover:scale-105 active:scale-95 shadow-xl shadow-red-500/20'
               }`}
             >
-              {loadingInfo ? <Loader className="animate-spin" size={24} /> : <Search size={24} />}
+              {loadingInfo ? <Loader className="animate-spin" size={20} className="md:w-6 md:h-6" /> : <Search size={20} className="md:w-6 md:h-6" />}
               {loadingInfo ? 'Searching...' : 'Fetch Media'}
             </button>
           </div>
@@ -169,11 +169,11 @@ export default function MediaDownloader() {
 
               {/* Download Options */}
               <div className="md:col-span-3 flex flex-col justify-center">
-                <h4 className="text-sm font-black uppercase tracking-widest text-slate-400 mb-5 flex items-center gap-2">
-                  <Download size={16} /> Download Options
+                <h4 className="text-xs md:text-sm font-black uppercase tracking-widest text-slate-400 mb-4 md:mb-5 flex items-center gap-2">
+                  <Download size={14} className="md:w-4 md:h-4" /> Download Options
                 </h4>
 
-                <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 md:gap-4 mb-4">
                   <button
                     onClick={() => handleDownload('video', '1080p')}
                     disabled={downloading !== null}

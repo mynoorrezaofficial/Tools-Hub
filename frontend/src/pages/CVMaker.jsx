@@ -169,29 +169,29 @@ export default function CVMaker() {
 
       {/* Main Content Area */}
       <div className="flex-1">
-        <div className="mb-12">
-          <h3 className="text-5xl font-black text-slate-900 tracking-tight mb-4">Choose a template</h3>
-          <p className="text-xl text-slate-500 font-medium">Select a professional layout to start building your CV in minutes.</p>
+        <div className="mb-8 md:mb-12">
+          <h3 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">Choose a template</h3>
+          <p className="text-lg md:text-xl text-slate-500 font-medium">Select a professional layout to start building your CV in minutes.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {/* New Blank Option */}
           <button 
             onClick={() => { setSelectedTemplate('classic'); setShowForm(true); }}
-            className="group relative flex flex-col items-center justify-center aspect-[3/4] rounded-[48px] border-4 border-dashed border-slate-200 hover:border-blue-400 hover:bg-white hover:shadow-2xl transition-all duration-500 bg-slate-50/50"
+            className="group relative flex flex-col items-center justify-center aspect-[3/4] rounded-[32px] md:rounded-[48px] border-4 border-dashed border-slate-200 hover:border-blue-400 hover:bg-white hover:shadow-2xl transition-all duration-500 bg-slate-50/50"
           >
-            <div className="w-20 h-20 rounded-3xl bg-white flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-blue-500/40 group-hover:scale-110">
-              <Plus size={40} />
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-white flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-blue-500/40 group-hover:scale-110">
+              <Plus size={32} className="md:w-10 md:h-10" />
             </div>
-            <span className="mt-8 text-2xl font-black text-slate-900">New blank</span>
-            <p className="text-sm font-bold text-slate-400 mt-2">Start from scratch</p>
+            <span className="mt-6 md:mt-8 text-xl md:text-2xl font-black text-slate-900">New blank</span>
+            <p className="text-xs md:text-sm font-bold text-slate-400 mt-2">Start from scratch</p>
           </button>
 
           {TEMPLATES.map((tmpl) => (
             <div key={tmpl.id} className="group relative flex flex-col gap-5">
               <div 
                 onClick={() => { setSelectedTemplate(tmpl.id); setShowForm(true); }}
-                className={`relative aspect-[3/4] rounded-[48px] overflow-hidden cursor-pointer shadow-xl transition-all duration-700 group-hover:-translate-y-4 group-hover:shadow-[0_60px_100px_-20px_rgba(0,0,0,0.2)] bg-white border border-slate-100 ${selectedTemplate === tmpl.id ? 'ring-8 ring-blue-500/10' : ''}`}
+                className={`relative aspect-[3/4] rounded-[32px] md:rounded-[48px] overflow-hidden cursor-pointer shadow-xl transition-all duration-700 group-hover:-translate-y-4 group-hover:shadow-[0_60px_100px_-20px_rgba(0,0,0,0.2)] bg-white border border-slate-100 ${selectedTemplate === tmpl.id ? 'ring-8 ring-blue-500/10' : ''}`}
               >
                 {/* Scaled Template Preview */}
                 <div className="absolute inset-0 origin-top-left scale-[0.35] w-[285%] h-[285%] pointer-events-none bg-white">
@@ -209,8 +209,8 @@ export default function CVMaker() {
                   </button>
                 </div>
               </div>
-              <div className="flex items-center justify-between px-4">
-                <span className="text-xl font-black text-slate-900">{tmpl.name}</span>
+              <div className="flex items-center justify-between px-2 md:px-4">
+                <span className="text-lg md:text-xl font-black text-slate-900">{tmpl.name}</span>
                 <div className={`w-4 h-4 rounded-full ${tmpl.color} shadow-lg ring-4 ring-white`} />
               </div>
             </div>
@@ -534,11 +534,11 @@ export default function CVMaker() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen px-6 pt-4 pb-12 bg-slate-50 relative overflow-hidden">
+    <div className="flex flex-col items-center justify-start min-h-screen px-4 md:px-6 pt-4 pb-12 bg-slate-50 relative overflow-hidden">
       {/* Decorative Background */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl opacity-50" />
-        <div className="absolute top-1/2 -right-48 w-[500px] h-[500px] bg-purple-100/50 rounded-full blur-3xl opacity-50" />
+        <div className="absolute -top-24 -left-24 w-64 md:w-96 h-64 md:h-96 bg-blue-100/50 rounded-full blur-3xl opacity-50" />
+        <div className="absolute top-1/2 -right-24 md:-right-48 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-purple-100/50 rounded-full blur-3xl opacity-50" />
       </div>
 
       <div className="w-full max-w-6xl relative z-10">
@@ -578,14 +578,14 @@ export default function CVMaker() {
             </div>
 
             {/* Dynamic Form Area */}
-            <div className="glass-card bg-white/80 p-8 md:p-12 shadow-2xl shadow-slate-200/50 min-h-[600px]">
-              <div className="mb-10 flex items-center justify-between">
+            <div className="glass-card bg-white/80 p-5 md:p-12 shadow-2xl shadow-slate-200/50 min-h-[500px] md:min-h-[600px]">
+              <div className="mb-8 md:mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-3xl font-black text-slate-900 flex items-center gap-3 tracking-tight">
+                  <h2 className="text-2xl md:text-3xl font-black text-slate-900 flex items-center gap-3 tracking-tight">
                     {STEPS[currentStep].title} 
-                    <Sparkles className="text-blue-400 animate-pulse" size={24} />
+                    <Sparkles className="text-blue-400 animate-pulse" size={20} className="md:w-6 md:h-6" />
                   </h2>
-                  <p className="text-slate-500 font-medium mt-1">Section {currentStep + 1} of {STEPS.length}</p>
+                  <p className="text-slate-500 text-xs md:text-sm font-medium mt-1">Section {currentStep + 1} of {STEPS.length}</p>
                 </div>
               </div>
 
