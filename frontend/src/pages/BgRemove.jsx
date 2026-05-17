@@ -167,7 +167,17 @@ export default function BgRemove() {
       setResultImg(url);
     } catch (err) {
       console.error(err);
-      setError('Failed to remove background. Please ensure the backend is running.');
+      let msg = 'Failed to remove background. Please ensure the backend is running.';
+      if (err.response?.data instanceof Blob) {
+        try {
+          const text = await err.response.data.text();
+          const json = JSON.parse(text);
+          msg = json.error || msg;
+        } catch (_) {}
+      } else if (err.response?.data?.error) {
+        msg = err.response.data.error;
+      }
+      setError(msg);
     } finally {
       setLoading(false);
     }

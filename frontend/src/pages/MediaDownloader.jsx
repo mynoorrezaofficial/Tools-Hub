@@ -80,7 +80,17 @@ export default function MediaDownloader() {
 
     } catch (err) {
       console.error(err);
-      setError('Failed to download media. Please try another quality or URL.');
+      let msg = 'Failed to download media. Please try another quality or URL.';
+      if (err.response?.data instanceof Blob) {
+        try {
+          const text = await err.response.data.text();
+          const json = JSON.parse(text);
+          msg = json.error || msg;
+        } catch (_) {}
+      } else if (err.response?.data?.error) {
+        msg = err.response.data.error;
+      }
+      setError(msg);
     } finally {
       setDownloading(null);
     }
