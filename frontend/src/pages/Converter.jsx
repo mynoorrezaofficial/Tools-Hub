@@ -101,7 +101,10 @@ export default function Converter() {
     files.forEach(f => formData.append('files', f.file));
     formData.append('target_format', targetFormat);
 
-    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://tools-hub-9q7i.onrender.com';
+    let API_BASE = import.meta.env.VITE_API_BASE_URL || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://tools-hub-9q7i.onrender.com');
+    if (API_BASE && !API_BASE.startsWith('http://') && !API_BASE.startsWith('https://')) {
+      API_BASE = 'https://' + API_BASE;
+    }
     try {
       const response = await axios.post(`${API_BASE}/api/convert`, formData, {
         responseType: 'blob',

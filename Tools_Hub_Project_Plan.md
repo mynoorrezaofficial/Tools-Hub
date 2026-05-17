@@ -61,12 +61,12 @@ The MVP includes:
   - Modular processing logic
 
 ### 2.3 Hosting & Deployment
-- **Frontend (Vercel):** 
+- **Frontend (Vercel / Netlify):** 
   - Root Directory: `frontend`
   - Build Command: `npm run build`
   - Output Directory: `dist`
-  - Environment Variable: `VITE_API_URL` (Point to Render backend URL)
-- **Backend (Render):**
+  - Environment Variable: `VITE_API_BASE_URL` (Point to Railway / Render backend URL, e.g. `https://your-backend-app.up.railway.app`)
+- **Backend (Railway / Render):**
   - Root Directory: `backend`
   - Build Command: `pip install -r requirements.txt`
   - Start Command: `gunicorn app:app`
@@ -84,7 +84,8 @@ Tools_Hub/
 │   │   ├── pages/        # BgRemove, Converter, MediaDownloader, AdBlocker, CVMaker, ThemeExtension
 │   │   ├── App.jsx       # Routing & Main Layout
 │   │   └── index.css     # Global Design System
-│   └── public/           # Static assets (logo.svg, zip files, preview images)
+│   ├── public/           # Static assets (logo.svg, zip files, preview images)
+│   └── .env.production   # Production API URL configuration (VITE_API_BASE_URL)
 ├── backend/              # Flask API (Active Venv)
 │   ├── app.py            # Main application router
 │   ├── modules/          # Core processing logic

@@ -90,6 +90,7 @@ Tools_Hub/
 │   │   ├── pages/        # BgRemove, Converter, MediaDownloader, CVMaker, ThemeExtension
 │   │   ├── components/   # UI Layout & Navbar
 │   │   └── App.jsx       # Routing & Home Page
+│   └── .env.production   # Production API URL configuration (VITE_API_BASE_URL)
 ├── backend/              # Flask API
 │   ├── modules/          # Core Logic (bg_remove, converter, downloader)
 │   ├── uploads/          # Temporary file storage
@@ -107,25 +108,42 @@ Tools_Hub/
 Ensure you have **Python 3.10+** and **Node.js** installed on your system.
 
 ### 2. Backend Setup
+
+**For Windows (PowerShell):**
+```powershell
+cd backend
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
+
+**For macOS / Linux:**
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate
 pip install -r requirements.txt
 python app.py
 ```
 
 ### 3. Frontend Setup
-```bash
+The frontend automatically detects your environment. To configure a custom backend API URL (such as Railway or Render), edit `frontend/.env.production` or create a `.env.development` file:
+```env
+VITE_API_BASE_URL=https://your-backend-app.up.railway.app
+```
+
+**Open a new terminal window / tab:**
+```powershell
 cd frontend
 npm install
 npm run dev
 ```
 
-### 4. Running the Project
-For convenience, you can use the provided batch script on Windows:
-```bash
-run_tools_hub.bat
+### 4. One-Click Launch (Windows)
+For convenience, you can simply double-click the provided batch script in the project root to launch both servers simultaneously:
+```cmd
+.\run_tools_hub.bat
 ```
 
 ---

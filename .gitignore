@@ -26,9 +26,6 @@ Thumbs.db
 .idea/
 .gemini/
 
-# Local Deployment Docs & Scripts
-*.bat
-deployment_guide.md
 
 # Logs
 *.log
