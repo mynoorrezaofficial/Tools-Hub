@@ -114,7 +114,16 @@ export default function Converter() {
       setCurrentStep(4);
     } catch (err) {
       console.error(err);
-      const msg = err.response?.data?.error || 'Conversion failed. Check your files and format combination.';
+      let msg = 'Conversion failed. Check your files and format combination.';
+      if (err.response?.data instanceof Blob) {
+        try {
+          const text = await err.response.data.text();
+          const json = JSON.parse(text);
+          msg = json.error || msg;
+        } catch (_) {}
+      } else if (err.response?.data?.error) {
+        msg = err.response.data.error;
+      }
       setError(msg);
       setCurrentStep(2);
     } finally {

@@ -132,7 +132,17 @@ export default function CVMaker() {
       document.body.removeChild(link);
     } catch (error) {
       console.error("Export failed", error);
-      alert("Failed to generate CV. Please check if the backend is running.");
+      let msg = "Failed to generate CV. Please check if the backend is running.";
+      if (error.response?.data instanceof Blob) {
+        try {
+          const text = await error.response.data.text();
+          const json = JSON.parse(text);
+          msg = json.error || msg;
+        } catch (_) {}
+      } else if (error.response?.data?.error) {
+        msg = error.response.data.error;
+      }
+      alert(msg);
     } finally {
       setLoading(false);
     }
