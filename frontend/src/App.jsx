@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -363,6 +364,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <SpeedInsights />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
