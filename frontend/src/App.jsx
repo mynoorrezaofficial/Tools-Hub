@@ -9,7 +9,7 @@ function ScrollToTop() {
   }, [pathname]);
   return null;
 }
-import { Scissors, FileText, ChevronRight, Upload, Settings, Download, Shield, Palette, Menu, X, Search, PlayCircle } from "lucide-react";
+import { Scissors, FileText, ChevronRight, Upload, Settings, Download, Zap, Sparkles, PlayCircle, Shield, Palette, Menu, X, Search } from "lucide-react";
 import BgRemove from "./pages/BgRemove";
 import Converter from "./pages/Converter";
 import MediaDownloader from "./pages/MediaDownloader";
@@ -17,64 +17,246 @@ import AdBlocker from "./pages/AdBlocker";
 import CVMaker from "./pages/CVMaker";
 import ThemeExtension from "./pages/ThemeExtension";
 import MetadataReader from "./pages/MetadataReader";
+import HeroCard3D from "./components/HeroCard3D";
+
+void motion;
 
 function Home() {
   return (
     <div className="flex flex-col items-center overflow-x-hidden">
-      {/* 3D Space — Tools floating in space */}
-      <section id="tools" className="relative py-16 md:py-28 w-full min-h-screen">
-        {/* Floating decorative orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[10%] left-[8%] w-48 h-48 rounded-full bg-gradient-to-br from-blue-200/40 to-purple-200/30 blur-[80px]" />
-          <div className="absolute top-[60%] right-[5%] w-64 h-64 rounded-full bg-gradient-to-br from-purple-200/30 to-pink-200/20 blur-[100px]" />
-          <div className="absolute bottom-[15%] left-[30%] w-40 h-40 rounded-full bg-gradient-to-br from-indigo-200/30 to-blue-200/20 blur-[70px]" />
-          <div className="absolute top-[30%] right-[25%] w-32 h-32 rounded-full bg-gradient-to-br from-green-200/25 to-teal-200/20 blur-[60px]" />
+      {/* Hero Section — Immersive 3D Space */}
+      <section className="min-h-[90vh] flex items-center justify-center w-full relative overflow-hidden px-6">
+        {/* 3D Perspective Scene */}
+        <div className="absolute inset-0" style={{ perspective: '1200px', perspectiveOrigin: '50% 40%' }}>
+          {/* Floor grid */}
+          <div style={{
+            position: 'absolute',
+            bottom: '8%',
+            left: '50%',
+            width: '140%',
+            height: '55%',
+            transform: 'translateX(-50%) rotateX(72deg)',
+            transformOrigin: 'bottom center',
+            background: `
+              linear-gradient(90deg, rgba(99,102,241,0.08) 1px, transparent 1px),
+              linear-gradient(0deg, rgba(99,102,241,0.08) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px',
+            maskImage: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%)',
+            WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%)',
+          }} />
+
+          {/* Ambient glow orbs */}
+          <div style={{ position: 'absolute', top: '10%', left: '20%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)', filter: 'blur(60px)' }} />
+          <div style={{ position: 'absolute', top: '25%', right: '10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)', filter: 'blur(50px)' }} />
+          <div style={{ position: 'absolute', bottom: '15%', left: '50%', width: '600px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%)', filter: 'blur(40px)', transform: 'translateX(-50%)' }} />
+
+          {/* Floating 3D cards arranged in space */}
+          {/* Card 1 — far back left */}
+          <motion.div
+            initial={{ opacity: 0, y: 80, scale: 0.7 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.2, ease: 'easeOut' }}
+            className="absolute"
+            style={{ top: '18%', left: '8%', transformStyle: 'preserve-3d', transform: 'rotateY(15deg) rotateX(-5deg) translateZ(-40px)' }}
+          >
+            <motion.div animate={{ y: [0, -14, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}>
+              <HeroCard3D icon={Scissors} title="Background Remover" description="AI-powered background removal"
+                width={190} iconGradient="linear-gradient(135deg,#3b82f6,#1d4ed8)" glowColor="rgba(59,130,246,0.5)" shadowColor="rgba(59,130,246,0.22)" />
+            </motion.div>
+          </motion.div>
+
+          {/* Card 2 — far back right */}
+          <motion.div
+            initial={{ opacity: 0, y: 80, scale: 0.7 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.5, ease: 'easeOut' }}
+            className="absolute"
+            style={{ top: '12%', right: '6%', transformStyle: 'preserve-3d', transform: 'rotateY(-12deg) rotateX(-3deg) translateZ(-60px)' }}
+          >
+            <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}>
+              <HeroCard3D icon={Sparkles} title="CV Maker" description="Professional resumes in minutes"
+                width={180} iconGradient="linear-gradient(135deg,#f97316,#ea580c)" glowColor="rgba(249,115,22,0.5)" shadowColor="rgba(249,115,22,0.22)" />
+            </motion.div>
+          </motion.div>
+
+          {/* Card 3 — mid left */}
+          <motion.div
+            initial={{ opacity: 0, y: 80, scale: 0.7 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.7, ease: 'easeOut' }}
+            className="absolute"
+            style={{ top: '40%', left: '18%', transformStyle: 'preserve-3d', transform: 'rotateY(20deg) rotateX(-8deg) translateZ(10px)' }}
+          >
+            <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}>
+              <HeroCard3D icon={FileText} title="File Converter" description="Convert documents instantly"
+                width={185} iconGradient="linear-gradient(135deg,#8b5cf6,#6d28d9)" glowColor="rgba(139,92,246,0.5)" shadowColor="rgba(139,92,246,0.22)" />
+            </motion.div>
+          </motion.div>
+
+          {/* Card 4 — center (hero, most prominent) */}
+          <motion.div
+            initial={{ opacity: 0, y: 100, scale: 0.6 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.4, delay: 0.3, ease: 'easeOut' }}
+            className="absolute z-30"
+            style={{ top: '38%', left: '50%', transformStyle: 'preserve-3d', transform: 'translateX(-50%) rotateY(0deg) rotateX(-4deg) translateZ(60px)' }}
+          >
+            <motion.div animate={{ y: [0, -18, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}>
+              <HeroCard3D icon={Zap} title="Media Downloader" description="Download videos and audio in high quality"
+                width={220} iconGradient="linear-gradient(135deg,#10b981,#059669)" glowColor="rgba(16,185,129,0.5)" shadowColor="rgba(16,185,129,0.25)" />
+            </motion.div>
+          </motion.div>
+
+          {/* Card 5 — mid right */}
+          <motion.div
+            initial={{ opacity: 0, y: 80, scale: 0.7 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.9, ease: 'easeOut' }}
+            className="absolute"
+            style={{ top: '42%', right: '14%', transformStyle: 'preserve-3d', transform: 'rotateY(-18deg) rotateX(-6deg) translateZ(0px)' }}
+          >
+            <motion.div animate={{ y: [0, -11, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}>
+              <HeroCard3D icon={PlayCircle} title="Media Downloader" description="YouTube, TikTok, Twitter and more"
+                width={175} iconGradient="linear-gradient(135deg,#ef4444,#dc2626)" glowColor="rgba(239,68,68,0.5)" shadowColor="rgba(239,68,68,0.22)" />
+            </motion.div>
+          </motion.div>
+
+          {/* Floating geometric particles */}
+          <motion.div animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ position: 'absolute', top: '22%', left: '42%', width: '18px', height: '18px', borderRadius: '5px', background: 'linear-gradient(135deg,rgba(99,102,241,0.6),rgba(59,130,246,0.6))', border: '1px solid rgba(255,255,255,0.4)', boxShadow: '0 4px 14px rgba(99,102,241,0.3)', zIndex: 15 }} />
+          <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+            style={{ position: 'absolute', top: '55%', left: '38%', width: '12px', height: '12px', borderRadius: '50%', background: 'rgba(16,185,129,0.6)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
+          <motion.div animate={{ rotate: [0, -360] }} transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+            style={{ position: 'absolute', top: '30%', right: '25%', width: '14px', height: '14px', borderRadius: '4px', background: 'rgba(249,115,22,0.5)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+            style={{ position: 'absolute', bottom: '28%', right: '32%', width: '10px', height: '10px', borderRadius: '50%', background: 'rgba(236,72,153,0.5)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
+          <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+            style={{ position: 'absolute', bottom: '22%', left: '30%', width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(139,92,246,0.5)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
-          {/* Floating geometry decorations */}
-          <div className="absolute top-12 left-[10%] w-3 h-3 rounded-full bg-blue-400/50 animate-[float_4s_ease-in-out_infinite]" />
-          <div className="absolute top-24 right-[15%] w-2 h-2 rounded-full bg-purple-400/50 animate-[float_5s_ease-in-out_infinite_0.5s]" />
-          <div className="absolute bottom-32 left-[20%] w-4 h-4 rounded-sm bg-indigo-400/40 rotate-45 animate-[float_6s_ease-in-out_infinite_1s]" />
-          <div className="absolute top-[50%] right-[8%] w-2.5 h-2.5 rounded-full bg-pink-400/40 animate-[float_3.5s_ease-in-out_infinite_0.3s]" />
-          <div className="absolute top-[70%] left-[5%] w-3 h-3 rounded-full bg-green-400/40 animate-[float_4.5s_ease-in-out_infinite_0.8s]" />
-          <div className="absolute top-[15%] left-[45%] w-2 h-2 rounded-full bg-blue-300/50 animate-[float_5.5s_ease-in-out_infinite_1.2s]" />
-          <div className="absolute bottom-[20%] right-[30%] w-3.5 h-3.5 rounded-sm bg-purple-300/40 rotate-12 animate-[float_4s_ease-in-out_infinite_0.6s]" />
+        {/* Center overlay content */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6 }}
+          className="relative z-40 text-center pointer-events-none"
+          style={{ marginTop: '-8vh' }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/60 backdrop-blur-xl text-blue-600 rounded-full text-xs font-bold uppercase tracking-widest mb-8 border border-white/80 shadow-lg shadow-blue-500/10 pointer-events-auto"
+          >
+            <Sparkles size={14} /> The All-in-One Student Toolkit
+          </motion.div>
+          <h1 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6 leading-[1.05] text-slate-900 drop-shadow-sm">
+            All-in-One <br />
+            <span className="text-gradient">Tool Hub</span> <br />
+            for Students
+          </h1>
+          <p className="text-base md:text-xl text-slate-500 mb-10 max-w-lg mx-auto leading-relaxed">
+            Convert files, remove backgrounds, and more. The essential productivity toolkit designed specifically for modern student workflows.
+          </p>
+          <a href="#tools" onClick={() => { document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' }); }}
+            className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-3xl font-bold shadow-2xl shadow-blue-500/30 transition-all hover:scale-105 active:scale-95 pointer-events-auto">
+            Explore All Tools <ChevronRight size={20} />
+          </a>
+        </motion.div>
+      </section>
 
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8 lg:gap-10" style={{ perspective: '1200px' }}>
-            {[
-              { to: '/bg-remove', icon: Scissors, color: 'blue', title: 'Background Remover', desc: 'Instantly strip backgrounds from photos.', gradient: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20', border: 'hover:border-blue-200', delay: '0s' },
-              { to: '/converter', icon: FileText, color: 'purple', title: 'File Converter', desc: 'Convert images to PDFs or strip PDFs into images.', gradient: 'from-purple-500 to-purple-600', shadow: 'shadow-purple-500/20', border: 'hover:border-purple-200', delay: '0.3s' },
-              { to: '/media-downloader', icon: PlayCircle, color: 'red', title: 'Media Downloader', desc: 'Extract and save high-quality MP4 and Audio.', gradient: 'from-red-500 to-red-600', shadow: 'shadow-red-500/20', border: 'hover:border-red-200', delay: '0.6s' },
-              { to: '/ad-blocker', icon: Shield, color: 'green', title: 'Ad Blocker', desc: 'Block malicious ads and trackers.', gradient: 'from-green-500 to-green-600', shadow: 'shadow-green-500/20', border: 'hover:border-green-200', delay: '0.9s' },
-              { to: '/cv-maker', icon: FileText, color: 'orange', title: 'CV Maker', desc: 'Build a professional, ATS-friendly resume.', gradient: 'from-orange-500 to-orange-600', shadow: 'shadow-orange-500/20', border: 'hover:border-orange-200', delay: '1.2s' },
-              { to: '/theme-extension', icon: Palette, color: 'purple', title: 'Theme Extension', desc: 'Customize Chrome with glassmorphism design.', gradient: 'from-violet-500 to-violet-600', shadow: 'shadow-violet-500/20', border: 'hover:border-violet-200', delay: '1.5s' },
-              { to: '/metadata-reader', icon: Search, color: 'indigo', title: 'Metadata', desc: 'Extract, replace, or delete metadata from files.', gradient: 'from-indigo-500 to-indigo-600', shadow: 'shadow-indigo-500/20', border: 'hover:border-indigo-200', delay: '1.8s' },
-            ].map((tool, i) => (
-              <motion.div
-                key={tool.to}
-                initial={{ opacity: 0, y: 40, rotateX: 15 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                transition={{ duration: 0.7, delay: i * 0.1, ease: 'easeOut' }}
-                style={{ transformStyle: 'preserve-3d', animationDelay: tool.delay }}
-                className="group"
-              >
-                <Link
-                  to={tool.to}
-                  className="glass-card block p-5 md:p-8 hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-200 transition-all duration-500 hover:-translate-y-2 hover:rotate-x-2"
-                  style={{ transformStyle: 'preserve-3d' }}
-                >
-                  <div className={`w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br ${tool.gradient} rounded-2xl flex items-center justify-center text-white mb-4 md:mb-6 shadow-lg ${tool.shadow} group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                    <tool.icon size={22} />
-                  </div>
-                  <h3 className="text-base md:text-xl font-bold mb-2 text-slate-900">{tool.title}</h3>
-                  <p className="text-xs md:text-sm text-slate-500 leading-relaxed line-clamp-2">{tool.desc}</p>
-                  <div className="mt-4 md:mt-6 flex items-center text-blue-600 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Explore Tool <ChevronRight size={16} className="ml-1" />
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+      {/* Features Section */}
+      <section id="tools" className="py-20 md:py-32 w-full bg-white/50 backdrop-blur-3xl scroll-mt-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 md:mb-24">
+            <h2 className="text-3xl md:text-5xl font-black mb-6 text-slate-900">Powerful Tools</h2>
+            <p className="text-slate-500 text-base md:text-lg max-w-2xl mx-auto">Everything you need to handle your academic files in one clean, lightning-fast platform.</p>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10">
+            {/* Feature 1 */}
+            <Link to="/bg-remove" className="group glass-card p-4 md:p-10 hover:shadow-blue-500/10 hover:border-blue-200">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-100 rounded-2xl md:rounded-3xl flex items-center justify-center text-blue-600 mb-4 md:mb-8 group-hover:rotate-6 transition-transform">
+                <Scissors size={24} className="md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-4">Background Remover</h3>
+              <p className="text-xs md:text-base text-slate-500 leading-relaxed line-clamp-2 md:line-clamp-none">Instantly strip backgrounds from photos. Perfect for professional profile pictures and slide decks.</p>
+              <div className="mt-4 md:mt-8 flex items-center text-blue-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                Explore Tool <ChevronRight size={18} className="ml-1" />
+              </div>
+            </Link>
+
+            {/* Feature 2 */}
+            <Link to="/converter" className="group glass-card p-4 md:p-10 hover:shadow-purple-500/10 hover:border-purple-200">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-purple-100 rounded-2xl md:rounded-3xl flex items-center justify-center text-purple-600 mb-4 md:mb-8 group-hover:rotate-6 transition-transform">
+                <FileText size={24} className="md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-4">File Converter</h3>
+              <p className="text-xs md:text-base text-slate-500 leading-relaxed line-clamp-2 md:line-clamp-none">Convert images to PDFs or strip PDFs into images. High-fidelity output for all your assignments.</p>
+              <div className="mt-4 md:mt-8 flex items-center text-purple-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                Explore Tool <ChevronRight size={18} className="ml-1" />
+              </div>
+            </Link>
+
+            {/* Feature 3 */}
+            <Link to="/media-downloader" className="group glass-card p-4 md:p-10 hover:shadow-red-500/10 hover:border-red-200">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-red-100 rounded-2xl md:rounded-3xl flex items-center justify-center text-red-600 mb-4 md:mb-8 group-hover:rotate-6 transition-transform">
+                <PlayCircle size={24} className="md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-4">Media Downloader</h3>
+              <p className="text-xs md:text-base text-slate-500 leading-relaxed line-clamp-2 md:line-clamp-none">Extract and save high-quality MP4 videos and Audio easily. Supports YouTube, Twitter, TikTok, and more.</p>
+              <div className="mt-4 md:mt-8 flex items-center text-red-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                Explore Tool <ChevronRight size={18} className="ml-1" />
+              </div>
+            </Link>
+
+            {/* Feature 4 */}
+            <Link to="/ad-blocker" className="group glass-card p-4 md:p-10 hover:shadow-green-500/10 hover:border-green-200">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-2xl md:rounded-3xl flex items-center justify-center text-green-600 mb-4 md:mb-8 group-hover:rotate-6 transition-transform">
+                <Shield size={24} className="md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-4">Ad Blocker</h3>
+              <p className="text-xs md:text-base text-slate-500 leading-relaxed line-clamp-2 md:line-clamp-none">Clean your web browsing experience. Block malicious ads and trackers with our premium extension.</p>
+              <div className="mt-4 md:mt-8 flex items-center text-green-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                Explore Tool <ChevronRight size={18} className="ml-1" />
+              </div>
+            </Link>
+
+            {/* Feature 5 */}
+            <Link to="/cv-maker" className="group glass-card p-4 md:p-10 hover:shadow-orange-500/10 hover:border-orange-200">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-orange-100 rounded-2xl md:rounded-3xl flex items-center justify-center text-orange-600 mb-4 md:mb-8 group-hover:rotate-6 transition-transform">
+                <FileText size={24} className="md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-4">CV Maker</h3>
+              <p className="text-xs md:text-base text-slate-500 leading-relaxed line-clamp-2 md:line-clamp-none">Build a professional, ATS-friendly resume in minutes. Export to PDF and Word with premium templates.</p>
+              <div className="mt-4 md:mt-8 flex items-center text-orange-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                Explore Tool <ChevronRight size={18} className="ml-1" />
+              </div>
+            </Link>
+
+            {/* Feature 6 */}
+            <Link to="/theme-extension" className="group glass-card p-4 md:p-10 hover:shadow-purple-500/10 hover:border-purple-200">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-purple-100 rounded-2xl md:rounded-3xl flex items-center justify-center text-purple-600 mb-4 md:mb-8 group-hover:rotate-6 transition-transform">
+                <Palette size={24} className="md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-4">Theme Extension</h3>
+              <p className="text-xs md:text-base text-slate-500 leading-relaxed line-clamp-2 md:line-clamp-none">Customize your Chrome new tab with a beautiful glassmorphism design and widgets.</p>
+              <div className="mt-4 md:mt-8 flex items-center text-purple-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                Explore Tool <ChevronRight size={18} className="ml-1" />
+              </div>
+            </Link>
+
+            {/* Feature 7 */}
+            <Link to="/metadata-reader" className="group glass-card p-4 md:p-10 hover:shadow-indigo-500/10 hover:border-indigo-200">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-indigo-100 rounded-2xl md:rounded-3xl flex items-center justify-center text-indigo-600 mb-4 md:mb-8 group-hover:rotate-6 transition-transform">
+                <Search size={24} className="md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-4">Metadata</h3>
+              <p className="text-xs md:text-base text-slate-500 leading-relaxed line-clamp-2 md:line-clamp-none">Extract, replace, or delete metadata from PDF files, with read-only inspection for other formats.</p>
+              <div className="mt-4 md:mt-8 flex items-center text-indigo-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                Explore Tool <ChevronRight size={18} className="ml-1" />
+              </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -86,6 +268,7 @@ function Home() {
           <h2 className="text-3xl md:text-5xl font-black mb-6">How It Works</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-10 md:gap-16 relative">
+          {/* Connector Line (Desktop Only) */}
           <div className="hidden md:block absolute top-12 left-20 right-20 h-[2px] bg-slate-100 z-0" />
 
           {[
