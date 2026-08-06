@@ -134,36 +134,6 @@ function Home() {
           <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
             style={{ position: 'absolute', bottom: '22%', left: '30%', width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(139,92,246,0.5)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
         </div>
-
-        {/* Center overlay content */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="relative z-40 text-center pointer-events-none"
-          style={{ marginTop: '-8vh' }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/60 backdrop-blur-xl text-blue-600 rounded-full text-xs font-bold uppercase tracking-widest mb-8 border border-white/80 shadow-lg shadow-blue-500/10 pointer-events-auto"
-          >
-            <Sparkles size={14} /> The All-in-One Student Toolkit
-          </motion.div>
-          <h1 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6 leading-[1.05] text-slate-900 drop-shadow-sm">
-            All-in-One <br />
-            <span className="text-gradient">Tool Hub</span> <br />
-            for Students
-          </h1>
-          <p className="text-base md:text-xl text-slate-500 mb-10 max-w-lg mx-auto leading-relaxed">
-            Convert files, remove backgrounds, and more. The essential productivity toolkit designed specifically for modern student workflows.
-          </p>
-          <a href="#tools" onClick={() => { document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' }); }}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-3xl font-bold shadow-2xl shadow-blue-500/30 transition-all hover:scale-105 active:scale-95 pointer-events-auto">
-            Explore All Tools <ChevronRight size={20} />
-          </a>
-        </motion.div>
       </section>
 
       {/* Features Section */}
