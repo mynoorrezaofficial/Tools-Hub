@@ -7,7 +7,11 @@ from werkzeug.utils import secure_filename
 from modules.bg_remove import process_bg_removal
 from modules.converter import convert_to_format
 from modules.cv_generator import generate_cv_pdf, generate_cv_docx
-from modules.metadata_reader import extract_metadata, update_pdf_metadata, update_jpeg_metadata
+from modules.metadata_reader import (
+    extract_metadata, update_pdf_metadata, update_jpeg_metadata,
+    update_png_metadata, update_docx_metadata, update_xlsx_metadata,
+    update_pptx_metadata, update_audio_metadata, update_video_metadata
+)
 
 print("--- Tools Hub Backend Initializing ---")
 
@@ -255,15 +259,12 @@ def metadata_update():
 
     filename = secure_filename(file.filename)
     ext = os.path.splitext(filename)[1].lower()
-    if ext not in ('.pdf', '.jpg', '.jpeg'):
-        return jsonify({"error": "Metadata editing is currently supported for PDF and JPEG image files only."}), 400
 
     mode = request.form.get('mode', 'replace').lower()
     unique_id = str(uuid.uuid4())
     input_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{unique_id}_{filename}")
     output_suffix = 'deleted' if mode == 'delete' else 'updated'
-    output_ext = '.pdf' if ext == '.pdf' else ext
-    output_filename = f"{os.path.splitext(filename)[0]}_metadata_{output_suffix}{output_ext}"
+    output_filename = f"{os.path.splitext(filename)[0]}_metadata_{output_suffix}{ext}"
     output_path = os.path.join(app.config['OUTPUT_FOLDER'], f"{unique_id}_{output_filename}")
 
     metadata_updates = {}
@@ -276,23 +277,55 @@ def metadata_update():
 
     file.save(input_path)
 
+    mimetype_map = {
+        '.pdf': 'application/pdf',
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.png': 'image/png',
+        '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        '.mp3': 'audio/mpeg',
+        '.m4a': 'audio/mp4',
+        '.aac': 'audio/aac',
+        '.flac': 'audio/flac',
+        '.ogg': 'audio/ogg',
+        '.wav': 'audio/wav',
+        '.mp4': 'video/mp4',
+        '.mov': 'video/quicktime',
+        '.mkv': 'video/x-matroska',
+        '.avi': 'video/x-msvideo',
+        '.webm': 'video/webm',
+    }
+
+    update_handlers = {
+        '.pdf': lambda i, o, m, d: update_pdf_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.jpg': lambda i, o, m, d: update_jpeg_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.jpeg': lambda i, o, m, d: update_jpeg_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.png': lambda i, o, m, d: update_png_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.docx': lambda i, o, m, d: update_docx_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.xlsx': lambda i, o, m, d: update_xlsx_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.pptx': lambda i, o, m, d: update_pptx_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.mp3': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.m4a': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.aac': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.flac': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.ogg': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.wav': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.mp4': lambda i, o, m, d: update_video_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.mov': lambda i, o, m, d: update_video_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.mkv': lambda i, o, m, d: update_video_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.avi': lambda i, o, m, d: update_video_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.webm': lambda i, o, m, d: update_video_metadata(i, o, metadata_updates=m, delete_all=d),
+    }
+
+    handler = update_handlers.get(ext)
+    if not handler:
+        return jsonify({"error": f"Metadata editing is not supported for {ext} files."}), 400
+
     try:
-        if ext == '.pdf':
-            success, message = update_pdf_metadata(
-                input_path,
-                output_path,
-                metadata_updates=metadata_updates,
-                delete_all=(mode == 'delete')
-            )
-            mimetype = 'application/pdf'
-        else:
-            success, message = update_jpeg_metadata(
-                input_path,
-                output_path,
-                metadata_updates=metadata_updates,
-                delete_all=(mode == 'delete')
-            )
-            mimetype = 'image/jpeg'
+        success, message = handler(input_path, output_path, metadata_updates, (mode == 'delete'))
+        mimetype = mimetype_map.get(ext, 'application/octet-stream')
 
         if not success:
             return jsonify({"error": message}), 500

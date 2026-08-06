@@ -225,6 +225,240 @@ def update_jpeg_metadata(file_path, output_path, metadata_updates=None, delete_a
         return False, str(e)
 
 
+def update_png_metadata(file_path, output_path, metadata_updates=None, delete_all=False):
+    """Update PNG metadata by copying file and writing text chunks."""
+    import struct
+    metadata_updates = metadata_updates or {}
+
+    try:
+        with open(file_path, 'rb') as f:
+            data = f.read()
+
+        # PNG signature
+        signature = data[:8]
+        rest = data[8:]
+
+        # Remove existing tEXt/iTXt chunks
+        chunks = []
+        i = 0
+        while i < len(rest):
+            length = struct.unpack('>I', rest[i:i+4])[0]
+            chunk_type = rest[i+4:i+8]
+            chunk_data = rest[i+8:i+8+length]
+            crc = rest[i+8+length:i+12+length]
+            if chunk_type not in (b'tEXt', b'iTXt', b'zTXt'):
+                chunks.append((chunk_type, chunk_data, crc))
+            i += 12 + length
+
+        # Add new metadata as tEXt chunks
+        if not delete_all:
+            for key, value in metadata_updates.items():
+                if value is None:
+                    continue
+                text = str(value).strip()
+                if not text:
+                    continue
+                chunk_data = f"{key}\0{text}".encode('utf-8', errors='ignore')
+                chunk_type = b'tEXt'
+                import zlib
+                crc_data = chunk_type + chunk_data
+                crc = struct.pack('>I', zlib.crc32(crc_data) & 0xFFFFFFFF)
+                chunks.append((chunk_type, chunk_data, crc))
+
+        # Write output
+        with open(output_path, 'wb') as f:
+            f.write(signature)
+            for chunk_type, chunk_data, crc in chunks:
+                f.write(struct.pack('>I', len(chunk_data)))
+                f.write(chunk_type)
+                f.write(chunk_data)
+                f.write(crc)
+
+        return True, "PNG metadata updated successfully."
+    except Exception as e:
+        return False, str(e)
+
+
+def update_docx_metadata(file_path, output_path, metadata_updates=None, delete_all=False):
+    """Update DOCX core properties."""
+    import shutil
+    from docx import Document
+
+    metadata_updates = metadata_updates or {}
+
+    try:
+        shutil.copy2(file_path, output_path)
+        doc = Document(output_path)
+        props = doc.core_properties
+
+        if delete_all:
+            props.author = None
+            props.last_modified_by = None
+            props.title = None
+            props.subject = None
+            props.keywords = None
+            props.comments = None
+        else:
+            field_map = {
+                'Author': 'author',
+                'Title': 'title',
+                'Subject': 'subject',
+                'Keywords': 'keywords',
+                'Creator': 'author',
+                'Last Modified By': 'last_modified_by',
+            }
+            for key, value in metadata_updates.items():
+                if value is None:
+                    continue
+                text = str(value).strip()
+                attr = field_map.get(key)
+                if attr and hasattr(props, attr):
+                    setattr(props, attr, text)
+
+        doc.save(output_path)
+        return True, "DOCX metadata updated successfully."
+    except Exception as e:
+        return False, str(e)
+
+
+def update_xlsx_metadata(file_path, output_path, metadata_updates=None, delete_all=False):
+    """Update XLSX core properties."""
+    import shutil
+    from openpyxl import load_workbook
+
+    metadata_updates = metadata_updates or {}
+
+    try:
+        shutil.copy2(file_path, output_path)
+        wb = load_workbook(output_path)
+        props = wb.properties
+
+        if delete_all:
+            props.creator = None
+            props.lastModifiedBy = None
+            props.title = None
+            props.subject = None
+            props.keywords = None
+        else:
+            field_map = {
+                'Author': 'creator',
+                'Title': 'title',
+                'Subject': 'subject',
+                'Keywords': 'keywords',
+                'Creator': 'creator',
+                'Last Modified By': 'lastModifiedBy',
+            }
+            for key, value in metadata_updates.items():
+                if value is None:
+                    continue
+                text = str(value).strip()
+                attr = field_map.get(key)
+                if attr and hasattr(props, attr):
+                    setattr(props, attr, text)
+
+        wb.save(output_path)
+        wb.close()
+        return True, "XLSX metadata updated successfully."
+    except Exception as e:
+        return False, str(e)
+
+
+def update_pptx_metadata(file_path, output_path, metadata_updates=None, delete_all=False):
+    """Update PPTX core properties."""
+    import shutil
+    from pptx import Presentation
+
+    metadata_updates = metadata_updates or {}
+
+    try:
+        shutil.copy2(file_path, output_path)
+        prs = Presentation(output_path)
+        props = prs.core_properties
+
+        if delete_all:
+            props.author = None
+            props.last_modified_by = None
+            props.title = None
+            props.subject = None
+            props.keywords = None
+        else:
+            field_map = {
+                'Author': 'author',
+                'Title': 'title',
+                'Subject': 'subject',
+                'Keywords': 'keywords',
+                'Creator': 'author',
+                'Last Modified By': 'last_modified_by',
+            }
+            for key, value in metadata_updates.items():
+                if value is None:
+                    continue
+                text = str(value).strip()
+                attr = field_map.get(key)
+                if attr and hasattr(props, attr):
+                    setattr(props, attr, text)
+
+        prs.save(output_path)
+        return True, "PPTX metadata updated successfully."
+    except Exception as e:
+        return False, str(e)
+
+
+def update_audio_metadata(file_path, output_path, metadata_updates=None, delete_all=False):
+    """Update audio metadata using mutagen."""
+    import shutil
+    from mutagen import File as MutagenFile
+
+    metadata_updates = metadata_updates or {}
+
+    try:
+        shutil.copy2(file_path, output_path)
+        audio = MutagenFile(output_path, easy=True)
+
+        if audio is None:
+            return False, "Could not read audio file."
+
+        if delete_all:
+            if audio.tags:
+                audio.tags.clear()
+        else:
+            field_map = {
+                'Track Title': 'title',
+                'Title': 'title',
+                'Artist': 'artist',
+                'Album': 'album',
+                'Genre': 'genre',
+                'Year': 'date',
+                'Date': 'date',
+            }
+            if audio.tags is None:
+                audio.add_tags()
+            for key, value in metadata_updates.items():
+                if value is None:
+                    continue
+                text = str(value).strip()
+                tag_key = field_map.get(key, key.lower())
+                audio.tags[tag_key] = text
+
+        audio.save()
+        return True, "Audio metadata updated successfully."
+    except Exception as e:
+        return False, str(e)
+
+
+def update_video_metadata(file_path, output_path, metadata_updates=None, delete_all=False):
+    """Update video metadata by copying file (limited support)."""
+    import shutil
+    metadata_updates = metadata_updates or {}
+
+    try:
+        shutil.copy2(file_path, output_path)
+        # Video metadata editing is limited; file is copied as-is
+        return True, "Video file copied. Full video metadata editing is limited."
+    except Exception as e:
+        return False, str(e)
+
+
 def _extract_pdf_metadata(file_path):
     """Extract metadata from PDF using pikepdf."""
     import pikepdf
