@@ -1,4 +1,5 @@
 import os
+import json
 import uuid
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
@@ -6,6 +7,7 @@ from werkzeug.utils import secure_filename
 from modules.bg_remove import process_bg_removal
 from modules.converter import convert_to_format
 from modules.cv_generator import generate_cv_pdf, generate_cv_docx
+from modules.metadata_reader import extract_metadata, update_pdf_metadata, update_jpeg_metadata
 
 print("--- Tools Hub Backend Initializing ---")
 
@@ -213,6 +215,101 @@ def cv_generate():
         import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
+
+@app.route('/api/metadata', methods=['POST'])
+def metadata_extract():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+
+    file = request.files['file']
+    if file.filename == '' or not file:
+        return jsonify({"error": "No selected file"}), 400
+
+    filename = secure_filename(file.filename)
+    unique_id = str(uuid.uuid4())
+    input_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{unique_id}_{filename}")
+
+    file.save(input_path)
+
+    try:
+        result = extract_metadata(input_path)
+        if "error" in result:
+            return jsonify(result), 500
+        return jsonify(result)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        if os.path.exists(input_path):
+            os.remove(input_path)
+
+@app.route('/api/metadata/update', methods=['POST'])
+def metadata_update():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+
+    file = request.files['file']
+    if file.filename == '' or not file:
+        return jsonify({"error": "No selected file"}), 400
+
+    filename = secure_filename(file.filename)
+    ext = os.path.splitext(filename)[1].lower()
+    if ext not in ('.pdf', '.jpg', '.jpeg'):
+        return jsonify({"error": "Metadata editing is currently supported for PDF and JPEG image files only."}), 400
+
+    mode = request.form.get('mode', 'replace').lower()
+    unique_id = str(uuid.uuid4())
+    input_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{unique_id}_{filename}")
+    output_suffix = 'deleted' if mode == 'delete' else 'updated'
+    output_ext = '.pdf' if ext == '.pdf' else ext
+    output_filename = f"{os.path.splitext(filename)[0]}_metadata_{output_suffix}{output_ext}"
+    output_path = os.path.join(app.config['OUTPUT_FOLDER'], f"{unique_id}_{output_filename}")
+
+    metadata_updates = {}
+    if mode != 'delete':
+        raw_metadata = request.form.get('metadata', '{}')
+        try:
+            metadata_updates = json.loads(raw_metadata) if raw_metadata else {}
+        except Exception:
+            return jsonify({"error": "Invalid metadata payload."}), 400
+
+    file.save(input_path)
+
+    try:
+        if ext == '.pdf':
+            success, message = update_pdf_metadata(
+                input_path,
+                output_path,
+                metadata_updates=metadata_updates,
+                delete_all=(mode == 'delete')
+            )
+            mimetype = 'application/pdf'
+        else:
+            success, message = update_jpeg_metadata(
+                input_path,
+                output_path,
+                metadata_updates=metadata_updates,
+                delete_all=(mode == 'delete')
+            )
+            mimetype = 'image/jpeg'
+
+        if not success:
+            return jsonify({"error": message}), 500
+
+        return send_file(
+            output_path,
+            as_attachment=True,
+            download_name=output_filename,
+            mimetype=mimetype
+        )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        if os.path.exists(input_path):
+            os.remove(input_path)
 
 if __name__ == '__main__':
     # Use environment variable for port if available (for direct running)

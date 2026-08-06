@@ -9,14 +9,17 @@ function ScrollToTop() {
   }, [pathname]);
   return null;
 }
-import { Scissors, FileText, ChevronRight, Upload, Settings, Download, Zap, Sparkles, PlayCircle, Shield, Palette, Menu, X } from "lucide-react";
+import { Scissors, FileText, ChevronRight, Upload, Settings, Download, Zap, Sparkles, PlayCircle, Shield, Palette, Menu, X, Search } from "lucide-react";
 import BgRemove from "./pages/BgRemove";
 import Converter from "./pages/Converter";
 import MediaDownloader from "./pages/MediaDownloader";
 import AdBlocker from "./pages/AdBlocker";
 import CVMaker from "./pages/CVMaker";
 import ThemeExtension from "./pages/ThemeExtension";
+import MetadataReader from "./pages/MetadataReader";
 import HeroCard3D from "./components/HeroCard3D";
+
+void motion;
 
 function Home() {
   return (
@@ -186,6 +189,18 @@ function Home() {
               <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-4">Theme Extension</h3>
               <p className="text-xs md:text-base text-slate-500 leading-relaxed line-clamp-2 md:line-clamp-none">Customize your Chrome new tab with a beautiful glassmorphism design and widgets.</p>
               <div className="mt-4 md:mt-8 flex items-center text-purple-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                Explore Tool <ChevronRight size={18} className="ml-1" />
+              </div>
+            </Link>
+
+            {/* Feature 7 */}
+            <Link to="/metadata-reader" className="group glass-card p-4 md:p-10 hover:shadow-indigo-500/10 hover:border-indigo-200">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-indigo-100 rounded-2xl md:rounded-3xl flex items-center justify-center text-indigo-600 mb-4 md:mb-8 group-hover:rotate-6 transition-transform">
+                <Search size={24} className="md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-4">Metadata</h3>
+              <p className="text-xs md:text-base text-slate-500 leading-relaxed line-clamp-2 md:line-clamp-none">Extract, replace, or delete metadata from PDF files, with read-only inspection for other formats.</p>
+              <div className="mt-4 md:mt-8 flex items-center text-indigo-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
                 Explore Tool <ChevronRight size={18} className="ml-1" />
               </div>
             </Link>
@@ -372,6 +387,7 @@ function App() {
           <Route path="/ad-blocker" element={<AdBlocker />} />
           <Route path="/theme-extension" element={<ThemeExtension />} />
           <Route path="/cv-maker" element={<CVMaker />} />
+          <Route path="/metadata-reader" element={<MetadataReader />} />
         </Routes>
       </Layout>
     </Router>

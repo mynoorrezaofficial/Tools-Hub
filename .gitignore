@@ -11,6 +11,7 @@ backend/__pycache__/
 backend/.pytest_cache/
 backend/uploads/
 backend/outputs/
+backend/temp/
 *.pyc
 
 # Frontend (if caught by root)

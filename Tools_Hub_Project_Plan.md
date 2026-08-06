@@ -16,6 +16,7 @@ The MVP includes:
 - Background remover (BiRefNet advanced model for sharp edges)
 - File converter (Document & Image format routing)
 - Media Downloader (High-quality MP4/MP3 extraction from URL)
+- Metadata (Read, replace, delete PDF metadata)
 - Ad Blocker (Browser extension for Chrome/Edge)
 - Theme Extension (Aesthetic New Tab customizer)
 - CV Maker (Professional PDF/Word resume generator)
@@ -81,7 +82,7 @@ Tools_Hub/
 ├── frontend/             # React + Vite Application
 │   ├── src/
 │   │   ├── components/   # UI Layout, Navbar, MobileMenu
-│   │   ├── pages/        # BgRemove, Converter, MediaDownloader, AdBlocker, CVMaker, ThemeExtension
+    │   │   ├── pages/        # BgRemove, Converter, MediaDownloader, Metadata, AdBlocker, CVMaker, ThemeExtension
 │   │   ├── App.jsx       # Routing & Main Layout
 │   │   └── index.css     # Global Design System
 │   ├── public/           # Static assets (logo.svg, zip files, preview images)
@@ -135,7 +136,12 @@ Tools_Hub/
 - Detailed 4-step manual installation guide (Chrome/Edge Developer Mode)
 - Premium landing page UI describing block status and safety benefits
 
-### 4.6 CV Maker Page
+### 4.6 Metadata Page
+- **Read-Only Scan:** Inspect file metadata from PDFs and other supported formats.
+- **PDF Editor:** Replace common metadata fields like Title, Author, Subject, Keywords, Creator, and Producer.
+- **Delete Action:** Remove PDF metadata entirely and download a cleaned copy.
+
+### 4.7 CV Maker Page
 - **Template Gallery:** Select from 6 premium, live-rendered layouts with professional high-fidelity previews.
 - **Sequential Wizard:** A 5-step animated editing flow (Personal → Experience → Education → Skills & Others → Final Preview).
 - **Advanced Categories:** Detailed inputs for Training, Certifications, Languages, and References.
@@ -143,7 +149,7 @@ Tools_Hub/
 - **Real-time Preview:** Visualizes changes instantly using actual component rendering.
 - **Flexible Export:** One-click download as PDF or Word (Docx), with export actions prioritized at the top.
 
-### 4.7 Theme Extension Page
+### 4.8 Theme Extension Page
 - **Landing UI:** High-impact header with a vibrant, glowing aesthetic.
 - **Visual Preview:** A dedicated section with a large screenshot of the extension interface.
 - **Feature Showcase:** Grid view of core capabilities (Dynamic Themes, Weather, Voice Search).

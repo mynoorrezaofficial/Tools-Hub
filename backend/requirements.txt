@@ -12,3 +12,8 @@ gunicorn
 opencv-python-headless
 onnxruntime
 curl_cffi
+hachoir
+pikepdf
+piexif
+mutagen
+filetype

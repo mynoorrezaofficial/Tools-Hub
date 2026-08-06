@@ -37,6 +37,12 @@ Extract high-quality media from across the web using the power of `yt-dlp`.
 - **Metadata Preview:** Real-time fetching of thumbnails, titles, and video duration.
 - **Flexible Formats:** Download as MP4 (up to 1080p) or high-quality Audio (M4A).
 
+### 🧾 Metadata
+Read, replace, or delete embedded PDF metadata.
+- **Read Metadata:** Inspect file information and embedded fields.
+- **Edit Metadata:** Replace common PDF metadata like title, author, subject, and keywords.
+- **Delete Metadata:** Remove metadata from PDF files with one click.
+
 ### 📄 Professional CV Maker
 A high-performance, multi-step resume builder with real-time visual feedback.
 - **High-Fidelity Previews:** Live, scaled-down renders of actual templates (not static images).
@@ -87,7 +93,7 @@ The entire platform is optimized for seamless use on smartphones and tablets.
 Tools_Hub/
 ├── frontend/             # React + Vite Application
 │   ├── src/
-│   │   ├── pages/        # BgRemove, Converter, MediaDownloader, CVMaker, ThemeExtension
+│   │   ├── pages/        # BgRemove, Converter, MediaDownloader, Metadata, CVMaker, ThemeExtension
 │   │   ├── components/   # UI Layout & Navbar
 │   │   └── App.jsx       # Routing & Home Page
 │   └── .env.production   # Production API URL configuration (VITE_API_BASE_URL)
