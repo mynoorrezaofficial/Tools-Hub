@@ -10,12 +10,27 @@ echo.
 :: Start Backend
 echo Starting Backend API...
 cd /d "%~dp0backend"
-start "Tools Hub Backend" cmd /c ".\venv\Scripts\python app.py"
+
+if not exist "venv\Scripts\python.exe" (
+    echo Creating virtual environment...
+    python -m venv venv
+)
+
+call venv\Scripts\activate.bat
+pip install -r requirements.txt
+
+start "Tools Hub Backend" cmd /k "cd /d "%~dp0backend" && call venv\Scripts\activate.bat && python app.py"
 
 :: Go back and Start Frontend
 echo Starting Frontend React UI...
 cd /d "%~dp0frontend"
-start "Tools Hub Frontend" cmd /c "npm.cmd run dev"
+
+if not exist "node_modules" (
+    echo Installing frontend dependencies...
+    npm install
+)
+
+start "Tools Hub Frontend" cmd /k "cd /d "%~dp0frontend" && npm run dev"
 
 echo.
 echo ===================================================

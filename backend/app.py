@@ -1,4 +1,5 @@
 import os
+import json
 import uuid
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
@@ -6,6 +7,11 @@ from werkzeug.utils import secure_filename
 from modules.bg_remove import process_bg_removal
 from modules.converter import convert_to_format
 from modules.cv_generator import generate_cv_pdf, generate_cv_docx
+from modules.metadata_reader import (
+    extract_metadata, update_pdf_metadata, update_jpeg_metadata,
+    update_png_metadata, update_docx_metadata, update_xlsx_metadata,
+    update_pptx_metadata, update_audio_metadata, update_video_metadata
+)
 
 print("--- Tools Hub Backend Initializing ---")
 
@@ -213,6 +219,130 @@ def cv_generate():
         import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
+
+@app.route('/api/metadata', methods=['POST'])
+def metadata_extract():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+
+    file = request.files['file']
+    if file.filename == '' or not file:
+        return jsonify({"error": "No selected file"}), 400
+
+    filename = secure_filename(file.filename)
+    unique_id = str(uuid.uuid4())
+    input_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{unique_id}_{filename}")
+
+    file.save(input_path)
+
+    try:
+        result = extract_metadata(input_path)
+        if "error" in result:
+            return jsonify(result), 500
+        return jsonify(result)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        if os.path.exists(input_path):
+            os.remove(input_path)
+
+@app.route('/api/metadata/update', methods=['POST'])
+def metadata_update():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+
+    file = request.files['file']
+    if file.filename == '' or not file:
+        return jsonify({"error": "No selected file"}), 400
+
+    filename = secure_filename(file.filename)
+    ext = os.path.splitext(filename)[1].lower()
+
+    mode = request.form.get('mode', 'replace').lower()
+    unique_id = str(uuid.uuid4())
+    input_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{unique_id}_{filename}")
+    output_suffix = 'deleted' if mode == 'delete' else 'updated'
+    output_filename = f"{os.path.splitext(filename)[0]}_metadata_{output_suffix}{ext}"
+    output_path = os.path.join(app.config['OUTPUT_FOLDER'], f"{unique_id}_{output_filename}")
+
+    metadata_updates = {}
+    if mode != 'delete':
+        raw_metadata = request.form.get('metadata', '{}')
+        try:
+            metadata_updates = json.loads(raw_metadata) if raw_metadata else {}
+        except Exception:
+            return jsonify({"error": "Invalid metadata payload."}), 400
+
+    file.save(input_path)
+
+    mimetype_map = {
+        '.pdf': 'application/pdf',
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.png': 'image/png',
+        '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        '.mp3': 'audio/mpeg',
+        '.m4a': 'audio/mp4',
+        '.aac': 'audio/aac',
+        '.flac': 'audio/flac',
+        '.ogg': 'audio/ogg',
+        '.wav': 'audio/wav',
+        '.mp4': 'video/mp4',
+        '.mov': 'video/quicktime',
+        '.mkv': 'video/x-matroska',
+        '.avi': 'video/x-msvideo',
+        '.webm': 'video/webm',
+    }
+
+    update_handlers = {
+        '.pdf': lambda i, o, m, d: update_pdf_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.jpg': lambda i, o, m, d: update_jpeg_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.jpeg': lambda i, o, m, d: update_jpeg_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.png': lambda i, o, m, d: update_png_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.docx': lambda i, o, m, d: update_docx_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.xlsx': lambda i, o, m, d: update_xlsx_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.pptx': lambda i, o, m, d: update_pptx_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.mp3': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.m4a': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.aac': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.flac': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.ogg': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.wav': lambda i, o, m, d: update_audio_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.mp4': lambda i, o, m, d: update_video_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.mov': lambda i, o, m, d: update_video_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.mkv': lambda i, o, m, d: update_video_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.avi': lambda i, o, m, d: update_video_metadata(i, o, metadata_updates=m, delete_all=d),
+        '.webm': lambda i, o, m, d: update_video_metadata(i, o, metadata_updates=m, delete_all=d),
+    }
+
+    handler = update_handlers.get(ext)
+    if not handler:
+        return jsonify({"error": f"Metadata editing is not supported for {ext} files."}), 400
+
+    try:
+        success, message = handler(input_path, output_path, metadata_updates, (mode == 'delete'))
+        mimetype = mimetype_map.get(ext, 'application/octet-stream')
+
+        if not success:
+            return jsonify({"error": message}), 500
+
+        return send_file(
+            output_path,
+            as_attachment=True,
+            download_name=output_filename,
+            mimetype=mimetype
+        )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        if os.path.exists(input_path):
+            os.remove(input_path)
 
 if __name__ == '__main__':
     # Use environment variable for port if available (for direct running)
