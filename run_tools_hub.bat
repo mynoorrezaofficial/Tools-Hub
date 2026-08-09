@@ -19,7 +19,7 @@ if not exist "venv\Scripts\python.exe" (
 call venv\Scripts\activate.bat
 pip install -r requirements.txt
 
-start "Tools Hub Backend" cmd /k "cd /d "%~dp0backend" && call venv\Scripts\activate.bat && python app.py"
+start "Tools Hub Backend" cmd /k "cd /d ""%~dp0backend"" && call venv\Scripts\activate.bat && python app.py"
 
 :: Go back and Start Frontend
 echo Starting Frontend React UI...
@@ -30,7 +30,7 @@ if not exist "node_modules" (
     npm install
 )
 
-start "Tools Hub Frontend" cmd /k "cd /d "%~dp0frontend" && npm run dev"
+start "Tools Hub Frontend" cmd /k "cd /d ""%~dp0frontend"" && npm run dev"
 
 echo.
 echo ===================================================

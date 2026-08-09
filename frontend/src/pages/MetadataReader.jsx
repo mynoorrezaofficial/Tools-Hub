@@ -24,6 +24,8 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 
+void motion;
+
 const FILE_ICONS = {
   PDF: { icon: FileText, color: 'text-red-500', bg: 'bg-red-100' },
   DOCX: { icon: FileText, color: 'text-blue-500', bg: 'bg-blue-100' },
@@ -62,6 +64,14 @@ const getFileIcon = (type) => FILE_ICONS[(type || '').toUpperCase()] || FILE_ICO
 
 const sectionTitle = (key) => key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
+const buildOutputFilename = (originalName, suffix = 'metadata_updated') => {
+  const dot = originalName.lastIndexOf('.');
+  if (dot === -1) return `${originalName}_${suffix}`;
+  const base = originalName.slice(0, dot);
+  const ext = originalName.slice(dot);
+  return `${base}_${suffix}${ext}`;
+};
+
 export default function MetadataReader() {
   const [file, setFile] = useState(null);
   const [metadata, setMetadata] = useState(null);
@@ -70,15 +80,12 @@ export default function MetadataReader() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
-  const [rawCopied, setRawCopied] = useState(false);
+  const [rawDownloading, setRawDownloading] = useState(false);
   const [expandedSections, setExpandedSections] = useState({ raw: false });
   const [processedFile, setProcessedFile] = useState(null);
   const [processedFilename, setProcessedFilename] = useState('');
   const [isExecuting, setIsExecuting] = useState(false);
   const fileInputRef = useRef(null);
-
-  const isPdf = metadata?.file_type === 'PDF';
-  const isJpeg = ['JPEG', 'JPG'].includes(metadata?.file_type);
 
   const resetFileState = () => {
     setFile(null);
@@ -86,7 +93,7 @@ export default function MetadataReader() {
     setEditableMetadata({});
     setError(null);
     setCopied(false);
-    setRawCopied(false);
+    setRawDownloading(false);
     setProcessedFile(null);
     setProcessedFilename('');
     setIsExecuting(false);
@@ -103,7 +110,7 @@ export default function MetadataReader() {
     setEditableMetadata({});
     setError(null);
     setCopied(false);
-    setRawCopied(false);
+    setRawDownloading(false);
   };
 
   const handleDrop = (e) => {
@@ -118,7 +125,7 @@ export default function MetadataReader() {
     setEditableMetadata({});
     setError(null);
     setCopied(false);
-    setRawCopied(false);
+    setRawDownloading(false);
   };
 
   const handleExtractMetadata = async () => {
@@ -169,7 +176,7 @@ export default function MetadataReader() {
       });
       const disposition = response.headers['content-disposition'] || '';
       const match = disposition.match(/filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/i);
-      const filename = decodeURIComponent(match?.[1] || match?.[2] || 'metadata_updated.bin');
+      const filename = decodeURIComponent(match?.[1] || match?.[2] || buildOutputFilename(file.name));
 
       setProcessedFile(response.data);
       setProcessedFilename(filename);
@@ -220,7 +227,7 @@ export default function MetadataReader() {
     const url = URL.createObjectURL(processedFile);
     const link = document.createElement('a');
     link.href = url;
-    link.download = processedFilename;
+    link.download = processedFilename && !processedFilename.endsWith('.bin') ? processedFilename : buildOutputFilename(file?.name || 'metadata');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -237,9 +244,15 @@ export default function MetadataReader() {
 
   const handleCopyRaw = () => {
     if (!metadata) return;
-    navigator.clipboard.writeText(JSON.stringify(metadata, null, 2));
-    setRawCopied(true);
-    setTimeout(() => setRawCopied(false), 1800);
+    const blob = new Blob([JSON.stringify(metadata, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${(file?.name || 'metadata').replace(/\.[^/.]+$/, '')}_metadata.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const toggleSection = (section) => {
@@ -349,13 +362,7 @@ export default function MetadataReader() {
                       {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
                       {copied ? 'Copied!' : 'Copy'}
                     </button>
-                    <button
-                      onClick={handleCopyRaw}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-600 transition-colors hover:bg-slate-200"
-                    >
-                      {rawCopied ? <Check size={14} className="text-green-500" /> : <Download size={14} />}
-                      {rawCopied ? 'Copied!' : 'Raw JSON'}
-                    </button>
+                    
                   </div>
                 </div>
 
@@ -399,7 +406,17 @@ export default function MetadataReader() {
                     <span className="flex items-center gap-2 text-sm font-bold text-slate-700">
                       <Download size={16} /> Raw Data
                     </span>
-                    {expandedSections.raw ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleCopyRaw(); }}
+                        disabled={rawDownloading}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-600 transition-colors hover:bg-slate-200 disabled:opacity-60"
+                      >
+                        <Download size={14} />
+                        {rawDownloading ? 'Downloading...' : 'JSON'}
+                      </button>
+                      {expandedSections.raw ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </div>
                   </button>
                   <AnimatePresence>
                     {expandedSections.raw && (
