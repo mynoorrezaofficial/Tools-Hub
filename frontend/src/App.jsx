@@ -24,93 +24,116 @@ void motion;
 function Home() {
   return (
     <div className="flex flex-col items-center overflow-x-hidden">
-      {/* Hero Section */}
-      <section className="min-h-[85vh] flex flex-col lg:flex-row items-center justify-between text-center lg:text-left px-6 w-full max-w-7xl mx-auto gap-16 py-12">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex-1 z-10"
-        >
+      {/* Hero Section — Immersive 3D Space */}
+      <section className="min-h-[90vh] flex items-center justify-center w-full relative overflow-hidden px-6">
+        {/* 3D Perspective Scene */}
+        <div className="absolute inset-0" style={{ perspective: '1200px', perspectiveOrigin: '50% 40%' }}>
+          {/* Floor grid */}
+          <div style={{
+            position: 'absolute',
+            bottom: '8%',
+            left: '50%',
+            width: '140%',
+            height: '55%',
+            transform: 'translateX(-50%) rotateX(72deg)',
+            transformOrigin: 'bottom center',
+            background: `
+              linear-gradient(90deg, rgba(99,102,241,0.08) 1px, transparent 1px),
+              linear-gradient(0deg, rgba(99,102,241,0.08) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px',
+            maskImage: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%)',
+            WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%)',
+          }} />
+
+          {/* Ambient glow orbs */}
+          <div style={{ position: 'absolute', top: '10%', left: '20%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)', filter: 'blur(60px)' }} />
+          <div style={{ position: 'absolute', top: '25%', right: '10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)', filter: 'blur(50px)' }} />
+          <div style={{ position: 'absolute', bottom: '15%', left: '50%', width: '600px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%)', filter: 'blur(40px)', transform: 'translateX(-50%)' }} />
+
+          {/* Floating 3D cards arranged in space */}
+          {/* Card 1 — far back left */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-xs font-bold uppercase tracking-widest mb-8 border border-blue-100 shadow-sm"
+            initial={{ opacity: 0, y: 80, scale: 0.7 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.2, ease: 'easeOut' }}
+            className="absolute"
+            style={{ top: '18%', left: '8%', transformStyle: 'preserve-3d', transform: 'rotateY(15deg) rotateX(-5deg) translateZ(-40px)' }}
           >
-            <Sparkles size={14} /> The All-in-One Student Toolkit
-          </motion.div>
-          <h1 className="text-4xl md:text-8xl font-black tracking-tight mb-6 md:mb-8 leading-[1.05] text-slate-900 px-2">
-            All-in-One <br />
-            <span className="text-gradient">Tool Hub</span> <br />
-            for Students
-          </h1>
-          <p className="text-base md:text-2xl text-slate-500 mb-10 md:mb-12 max-w-xl leading-relaxed px-4 mx-auto lg:mx-0">
-            Convert files, remove backgrounds, and more. The essential productivity toolkit designed specifically for modern student workflows.
-          </p>
-          <div className="flex flex-wrap gap-5 justify-center lg:justify-start">
-            <a href="#tools" onClick={() => { document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-8 py-4 md:px-10 md:py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-3xl font-bold shadow-2xl shadow-blue-500/30 transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
-              Explore All Tools <ChevronRight size={20} />
-            </a>
-          </div>
-        </motion.div>
-
-        {/* ── 3D Glassmorphism Hero Cards ─────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-          className="flex-1 relative hidden lg:flex items-center justify-center"
-          style={{ minHeight: '520px' }}
-        >
-          {/* Colorful blobs — glass needs a vivid background to look like glass */}
-          <div style={{ position:'absolute', inset:0, overflow:'hidden', pointerEvents:'none' }}>
-            <div style={{ position:'absolute', top:'15%', left:'25%', width:'320px', height:'320px', borderRadius:'50%', background:'linear-gradient(135deg, rgba(139,92,246,0.38), rgba(59,130,246,0.28))', filter:'blur(80px)' }} />
-            <div style={{ position:'absolute', top:'45%', left:'5%',  width:'200px', height:'200px', borderRadius:'50%', background:'linear-gradient(135deg, rgba(236,72,153,0.22), rgba(139,92,246,0.22))', filter:'blur(60px)' }} />
-            <div style={{ position:'absolute', bottom:'8%', right:'8%', width:'240px', height:'240px', borderRadius:'50%', background:'linear-gradient(135deg, rgba(59,130,246,0.26), rgba(16,185,129,0.22))', filter:'blur(70px)' }} />
-            <div style={{ position:'absolute', top:'5%',  right:'15%', width:'160px', height:'160px', borderRadius:'50%', background:'linear-gradient(135deg, rgba(249,115,22,0.2),  rgba(236,72,153,0.18))', filter:'blur(50px)' }} />
-          </div>
-
-          {/* Platform shadow glow */}
-          <div style={{ position:'absolute', bottom:'12%', left:'50%', transform:'translateX(-50%)', width:'65%', height:'28px', borderRadius:'50%', background:'rgba(139,92,246,0.22)', filter:'blur(18px)', pointerEvents:'none' }} />
-
-          {/* Card: Background Remover — top center-right */}
-          <motion.div animate={{ y:[0,-12,0] }} transition={{ duration:5, repeat:Infinity, ease:'easeInOut', delay:0 }}
-            style={{ position:'absolute', top:0, left:'50%', transform:'translateX(-15%)', zIndex:20 }}>
-            <HeroCard3D icon={Scissors} title="Background Remover" description="Remove background in one click with AI"
-              width={205} iconGradient="linear-gradient(135deg,#3b82f6,#1d4ed8)" glowColor="rgba(59,130,246,0.5)" shadowColor="rgba(59,130,246,0.22)" />
+            <motion.div animate={{ y: [0, -14, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}>
+              <HeroCard3D icon={Scissors} title="Background Remover" description="AI-powered background removal"
+                width={190} iconGradient="linear-gradient(135deg,#3b82f6,#1d4ed8)" glowColor="rgba(59,130,246,0.5)" shadowColor="rgba(59,130,246,0.22)" />
+            </motion.div>
           </motion.div>
 
-          {/* Card: File Converter — middle left (staggered higher than first) */}
-          <motion.div animate={{ y:[0,-10,0] }} transition={{ duration:6, repeat:Infinity, ease:'easeInOut', delay:0.8 }}
-            style={{ position:'absolute', top:'45%', left:0, transform:'translateY(-55%)', zIndex:20, marginTop: '-20px' }}>
-            <HeroCard3D icon={FileText} title="File Converter" description="Convert documents and images instantly"
-              width={188} iconGradient="linear-gradient(135deg,#8b5cf6,#6d28d9)" glowColor="rgba(139,92,246,0.5)" shadowColor="rgba(139,92,246,0.22)" />
+          {/* Card 2 — far back right */}
+          <motion.div
+            initial={{ opacity: 0, y: 80, scale: 0.7 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.5, ease: 'easeOut' }}
+            className="absolute"
+            style={{ top: '12%', right: '6%', transformStyle: 'preserve-3d', transform: 'rotateY(-12deg) rotateX(-3deg) translateZ(-60px)' }}
+          >
+            <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}>
+              <HeroCard3D icon={Sparkles} title="CV Maker" description="Professional resumes in minutes"
+                width={180} iconGradient="linear-gradient(135deg,#f97316,#ea580c)" glowColor="rgba(249,115,22,0.5)" shadowColor="rgba(249,115,22,0.22)" />
+            </motion.div>
           </motion.div>
 
-          {/* Card: Media Downloader — center (most prominent) */}
-          <motion.div animate={{ y:[0,-16,0] }} transition={{ duration:5.5, repeat:Infinity, ease:'easeInOut', delay:0.4 }}
-            style={{ position:'absolute', top:'55%', left:'50%', transform:'translate(-50%,-50%)', zIndex:30 }}>
-            <HeroCard3D icon={Zap} title="Media Downloader" description="Download videos and audio in high quality"
-              width={215} iconGradient="linear-gradient(135deg,#10b981,#059669)" glowColor="rgba(16,185,129,0.5)" shadowColor="rgba(16,185,129,0.25)" />
+          {/* Card 3 — mid left */}
+          <motion.div
+            initial={{ opacity: 0, y: 80, scale: 0.7 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.7, ease: 'easeOut' }}
+            className="absolute"
+            style={{ top: '40%', left: '18%', transformStyle: 'preserve-3d', transform: 'rotateY(20deg) rotateX(-8deg) translateZ(10px)' }}
+          >
+            <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}>
+              <HeroCard3D icon={FileText} title="File Converter" description="Convert documents instantly"
+                width={185} iconGradient="linear-gradient(135deg,#8b5cf6,#6d28d9)" glowColor="rgba(139,92,246,0.5)" shadowColor="rgba(139,92,246,0.22)" />
+            </motion.div>
           </motion.div>
 
-          {/* Card: CV Maker — right */}
-          <motion.div animate={{ y:[0,-10,0] }} transition={{ duration:6.5, repeat:Infinity, ease:'easeInOut', delay:1.2 }}
-            style={{ position:'absolute', top:'35%', right:0, transform:'translateY(-50%)', zIndex:20 }}>
-            <HeroCard3D icon={Sparkles} title="CV Maker" description="Create professional resumes in minutes"
-              width={178} iconGradient="linear-gradient(135deg,#f97316,#ea580c)" glowColor="rgba(249,115,22,0.5)" shadowColor="rgba(249,115,22,0.22)" />
+          {/* Card 4 — center (hero, most prominent) */}
+          <motion.div
+            initial={{ opacity: 0, y: 100, scale: 0.6 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.4, delay: 0.3, ease: 'easeOut' }}
+            className="absolute z-30"
+            style={{ top: '38%', left: '50%', transformStyle: 'preserve-3d', transform: 'translateX(-50%) rotateY(0deg) rotateX(-4deg) translateZ(60px)' }}
+          >
+            <motion.div animate={{ y: [0, -18, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}>
+              <HeroCard3D icon={Zap} title="Media Downloader" description="Download videos and audio in high quality"
+                width={220} iconGradient="linear-gradient(135deg,#10b981,#059669)" glowColor="rgba(16,185,129,0.5)" shadowColor="rgba(16,185,129,0.25)" />
+            </motion.div>
           </motion.div>
 
-          {/* Decorative floating geometry */}
-          <motion.div animate={{ scale:[1,1.2,1], rotate:[0,180,360] }} transition={{ duration:8, repeat:Infinity, ease:'linear' }}
-            style={{ position:'absolute', top:'10%', left:'22%', width:'28px', height:'28px', borderRadius:'8px', background:'linear-gradient(135deg,rgba(139,92,246,0.55),rgba(59,130,246,0.55))', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.45)', boxShadow:'0 4px 14px rgba(139,92,246,0.3)', zIndex:10 }} />
-          <motion.div animate={{ scale:[1,1.35,1] }} transition={{ duration:4, repeat:Infinity, ease:'easeInOut', delay:1 }}
-            style={{ position:'absolute', bottom:'26%', left:'18%', width:'16px', height:'16px', borderRadius:'50%', background:'rgba(236,72,153,0.55)', backdropFilter:'blur(6px)', border:'1px solid rgba(255,255,255,0.4)', zIndex:10 }} />
-          <motion.div animate={{ y:[0,-9,0] }} transition={{ duration:3.5, repeat:Infinity, ease:'easeInOut', delay:0.6 }}
-            style={{ position:'absolute', bottom:'18%', right:'16%', width:'20px', height:'20px', borderRadius:'50%', background:'rgba(99,102,241,0.55)', backdropFilter:'blur(6px)', border:'1px solid rgba(255,255,255,0.4)', zIndex:10 }} />
-          <motion.div animate={{ rotate:[0,-360] }} transition={{ duration:12, repeat:Infinity, ease:'linear' }}
-            style={{ position:'absolute', top:'60%', right:'12%', width:'14px', height:'14px', borderRadius:'3px', background:'rgba(16,185,129,0.5)', backdropFilter:'blur(6px)', border:'1px solid rgba(255,255,255,0.4)', zIndex:10 }} />
-        </motion.div>
+          {/* Card 5 — mid right */}
+          <motion.div
+            initial={{ opacity: 0, y: 80, scale: 0.7 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.9, ease: 'easeOut' }}
+            className="absolute"
+            style={{ top: '42%', right: '14%', transformStyle: 'preserve-3d', transform: 'rotateY(-18deg) rotateX(-6deg) translateZ(0px)' }}
+          >
+            <motion.div animate={{ y: [0, -11, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}>
+              <HeroCard3D icon={PlayCircle} title="Media Downloader" description="YouTube, TikTok, Twitter and more"
+                width={175} iconGradient="linear-gradient(135deg,#ef4444,#dc2626)" glowColor="rgba(239,68,68,0.5)" shadowColor="rgba(239,68,68,0.22)" />
+            </motion.div>
+          </motion.div>
+
+          {/* Floating geometric particles */}
+          <motion.div animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ position: 'absolute', top: '22%', left: '42%', width: '18px', height: '18px', borderRadius: '5px', background: 'linear-gradient(135deg,rgba(99,102,241,0.6),rgba(59,130,246,0.6))', border: '1px solid rgba(255,255,255,0.4)', boxShadow: '0 4px 14px rgba(99,102,241,0.3)', zIndex: 15 }} />
+          <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+            style={{ position: 'absolute', top: '55%', left: '38%', width: '12px', height: '12px', borderRadius: '50%', background: 'rgba(16,185,129,0.6)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
+          <motion.div animate={{ rotate: [0, -360] }} transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+            style={{ position: 'absolute', top: '30%', right: '25%', width: '14px', height: '14px', borderRadius: '4px', background: 'rgba(249,115,22,0.5)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
+          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+            style={{ position: 'absolute', bottom: '28%', right: '32%', width: '10px', height: '10px', borderRadius: '50%', background: 'rgba(236,72,153,0.5)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
+          <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+            style={{ position: 'absolute', bottom: '22%', left: '30%', width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(139,92,246,0.5)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
+        </div>
       </section>
 
       {/* Features Section */}
