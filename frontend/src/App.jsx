@@ -18,6 +18,7 @@ import CVMaker from "./pages/CVMaker";
 import ThemeExtension from "./pages/ThemeExtension";
 import MetadataReader from "./pages/MetadataReader";
 import HeroCard3D from "./components/HeroCard3D";
+import Scene3D from "./components/Scene3D";
 
 void motion;
 
@@ -26,9 +27,11 @@ function Home() {
     <div className="flex flex-col items-center overflow-x-hidden">
       {/* Hero Section — Immersive 3D Space */}
       <section className="min-h-[90vh] flex items-center justify-center w-full relative overflow-hidden px-6">
-        {/* 3D Perspective Scene */}
-        <div className="absolute inset-0" style={{ perspective: '1200px', perspectiveOrigin: '50% 40%' }}>
-          {/* Floor grid */}
+        {/* Three.js 3D Scene */}
+        <Scene3D />
+
+        {/* Floor grid overlay */}
+        <div className="absolute inset-0" style={{ perspective: '1200px', perspectiveOrigin: '50% 40%', pointerEvents: 'none' }}>
           <div style={{
             position: 'absolute',
             bottom: '8%',
@@ -38,21 +41,24 @@ function Home() {
             transform: 'translateX(-50%) rotateX(72deg)',
             transformOrigin: 'bottom center',
             background: `
-              linear-gradient(90deg, rgba(99,102,241,0.08) 1px, transparent 1px),
-              linear-gradient(0deg, rgba(99,102,241,0.08) 1px, transparent 1px)
+              linear-gradient(90deg, rgba(99,102,241,0.06) 1px, transparent 1px),
+              linear-gradient(0deg, rgba(99,102,241,0.06) 1px, transparent 1px)
             `,
             backgroundSize: '60px 60px',
-            maskImage: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%)',
-            WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%)',
+            maskImage: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 70%)',
+            WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 70%)',
           }} />
+        </div>
 
-          {/* Ambient glow orbs */}
-          <div style={{ position: 'absolute', top: '10%', left: '20%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)', filter: 'blur(60px)' }} />
-          <div style={{ position: 'absolute', top: '25%', right: '10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)', filter: 'blur(50px)' }} />
-          <div style={{ position: 'absolute', bottom: '15%', left: '50%', width: '600px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%)', filter: 'blur(40px)', transform: 'translateX(-50%)' }} />
+        {/* Glow orbs */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div style={{ position: 'absolute', top: '10%', left: '20%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)', filter: 'blur(60px)' }} />
+          <div style={{ position: 'absolute', top: '25%', right: '10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%)', filter: 'blur(50px)' }} />
+          <div style={{ position: 'absolute', bottom: '15%', left: '50%', width: '600px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)', filter: 'blur(40px)', transform: 'translateX(-50%)' }} />
+        </div>
 
-          {/* Floating 3D cards arranged in space */}
-          {/* Card 1 — far back left */}
+        {/* Floating 3D cards arranged in space */}
+        {/* Card 1 — far back left */}
           <motion.div
             initial={{ opacity: 0, y: 80, scale: 0.7 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -121,19 +127,6 @@ function Home() {
                 width={175} iconGradient="linear-gradient(135deg,#ef4444,#dc2626)" glowColor="rgba(239,68,68,0.5)" shadowColor="rgba(239,68,68,0.22)" />
             </motion.div>
           </motion.div>
-
-          {/* Floating geometric particles */}
-          <motion.div animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ position: 'absolute', top: '22%', left: '42%', width: '18px', height: '18px', borderRadius: '5px', background: 'linear-gradient(135deg,rgba(99,102,241,0.6),rgba(59,130,246,0.6))', border: '1px solid rgba(255,255,255,0.4)', boxShadow: '0 4px 14px rgba(99,102,241,0.3)', zIndex: 15 }} />
-          <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
-            style={{ position: 'absolute', top: '55%', left: '38%', width: '12px', height: '12px', borderRadius: '50%', background: 'rgba(16,185,129,0.6)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
-          <motion.div animate={{ rotate: [0, -360] }} transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-            style={{ position: 'absolute', top: '30%', right: '25%', width: '14px', height: '14px', borderRadius: '4px', background: 'rgba(249,115,22,0.5)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
-          <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-            style={{ position: 'absolute', bottom: '28%', right: '32%', width: '10px', height: '10px', borderRadius: '50%', background: 'rgba(236,72,153,0.5)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
-          <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-            style={{ position: 'absolute', bottom: '22%', left: '30%', width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(139,92,246,0.5)', border: '1px solid rgba(255,255,255,0.3)', zIndex: 15 }} />
-        </div>
       </section>
 
       {/* Features Section */}
